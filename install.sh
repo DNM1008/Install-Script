@@ -39,4 +39,5 @@ echo "Downloading xdg ninja"
 antidot clean
 
 echo "It should be done, now you just have to delete the unused dotfiles in your home directory (.bashrc, .bashprofile, .xinitrc and the .nvim directory)
-
+echo "What's next?"
+echo "The system should be ready to go, but I'd install the Firefox userChrome files in my my repo as well"
