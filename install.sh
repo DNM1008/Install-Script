@@ -21,22 +21,21 @@ freetype2 libgsf rawthumbnailer totem evince gnome-epub-thumbnailer mcomix
 folder-preview starship xclip gnome-keyring
 
 yay -S python-pip
-
-
-
-echo "Downloading and moving config files to appropriate locations"
-
+sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
+pip install psutil
+pip install pulsectl-asyncio
 cd ~/Downloads
 
 git clone https://github.com/DMN/Dots && cd Dots
 
 cp -r .config ~/.config cp -r .local ~/.local
-
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 echo "Altering sudoer's bashrc to load bashrc and bash profile files in
 .config"
 
 #Placeholder
-
+sudo echo source /home/zeus/.config/bash/bash_profile>etc/bash.bashrc
 echo "Enabling nvim plugin"
 #Placeholder
 
