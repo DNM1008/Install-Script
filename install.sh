@@ -40,8 +40,8 @@ echo "Altering sudoer's bashrc to load bashrc and bash profile files in
 sudo echo source /home/zeus/.config/bash/bash_profile>etc/bash.bashrc
 echo "Enabling nvim plugin"
 #Placeholder
-
-vim -c 'PlugInstall'
+ 
+vim +'PlugInstall' +qa
 
 echo "Installing pandoc and xelatex"
 yay --noconfirm -S pandoc xelatex
