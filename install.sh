@@ -8,12 +8,12 @@ sudo pacman --noconfirm -S git base-devel
 
 mkdir ~/Downloads && cd ~/Downloads
 
-git clone https://aur.archlinux.org/yay.git && cd yay makepkg -si
+git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
 echo "Installing software"
 
 #Placeholder#
-yay -S firefox alacritty discord betterdiscord-installer copyq dunst flameshot
+yay -S --noconfirmfirefox alacritty discord betterdiscord-installer copyq dunst flameshot
 gh gimp lxappearance lx session qt5ct htop ibus libreoffice mailspring mpv
 neofetch neovim ngvim olive pcmanfm picom pulseaudio qbittorrent qtile
 qitle-extras rofi syncthing zathura tumbler poppler-glib ffmpegthumbnailer
@@ -50,10 +50,13 @@ yay --noconfirm -S pandoc xelatex
 echo "Installing fonts"
 yay --noconfirm -S gnu-free-fonts nerd-fonts-git nerd-fonts-coomplete-mono-glyphs
 
-echo "Running antidot and xdg ninja" echo "Downloading xdg ninja"
+echo "Running antidot and xdg ninja" 
 #Placeholder
-
 antidot clean
+
+echo "Downloading xdg ninja"
+git clone https://github.com/b3nj5m1n/xdg-ninja.git
+cd xdg-ninja && ./xdg-ninja.sh
 
 echo "It should be done, now you just have to delete the unused dotfiles in
 your home directory (.bashrc, .bashprofile, .xinitrc and the .nvim directory)
