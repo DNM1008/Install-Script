@@ -14,6 +14,7 @@ Preparation:
       mainline Arch, make sure that you have that installed. This is essential
       anyway, since it allows things like `make` and `sudo`, among other
       things.
+    * `git` is installed.
     * You are not using Pipewire. This script will install Pulseaudio, and
       having 2 audio servers (or 2 or more of anything that does the same
       thing) is kinda a no no. Why Pulseaudio over Pipewire? Qtile as of the
