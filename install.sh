@@ -21,7 +21,7 @@ pip install psutil
 pip install pulsectl-asyncio
 cd ~/Downloads
 
-git clone https://github.com/DMN1008/Dots.git && cd Dots
+git clone https://github.com/DNM1008/Dots.git && cd Dots
 
 cp -r .config ~/.config cp -r .local ~/.local
 echo "Installing Vim Plug"
