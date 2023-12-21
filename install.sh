@@ -12,11 +12,7 @@ git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 echo "Installing software"
 
 #Placeholder#
-yay -S --no confirmfirefox alacritty discord betterdiscord-installer copyq dunst flameshot
-gh gimp lxappearance lx session qt5ct htop ibus libreoffice mailspring mpv
-neofetch neovim ngvim olive pcmanfm picom pulseaudio qbittorrent qtile
-qitle-extras rofi syncthing zathura tumbler poppler-glib ffmpegthumbnailer
-freetype2 libgsf rawthumbnailer totem evince gnome-epub-thumbnailer mcomix
+yay -S --no confirmfirefox alacritty discord betterdiscord-installer copyq dunst flameshot gh gimp lxappearance lx session qt5ct htop ibus libreoffice mailspring mpv neofetch neovim ngvim olive pcmanfm picom pulseaudio qbittorrent qtile qitle-extras rofi syncthing zathura tumbler poppler-glib ffmpegthumbnailer freetype2 libgsf rawthumbnailer totem evince gnome-epub-thumbnailer mcomix
 folder-preview starship xclip gnome-keyring
 
 yay -S python-pip
