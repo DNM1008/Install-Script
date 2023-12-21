@@ -4,7 +4,6 @@
 
 echo "Installing yay"
 
-sudo pacman --noconfirm -S git base-devel
 
 mkdir ~/Downloads && cd ~/Downloads
 
