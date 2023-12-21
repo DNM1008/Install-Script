@@ -13,7 +13,7 @@ git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 echo "Installing software"
 
 #Placeholder#
-yay -S --noconfirmfirefox alacritty discord betterdiscord-installer copyq dunst flameshot
+yay -S --no confirmfirefox alacritty discord betterdiscord-installer copyq dunst flameshot
 gh gimp lxappearance lx session qt5ct htop ibus libreoffice mailspring mpv
 neofetch neovim ngvim olive pcmanfm picom pulseaudio qbittorrent qtile
 qitle-extras rofi syncthing zathura tumbler poppler-glib ffmpegthumbnailer
@@ -26,7 +26,7 @@ pip install psutil
 pip install pulsectl-asyncio
 cd ~/Downloads
 
-git clone https://github.com/DMN/Dots && cd Dots
+git clone https://github.com/DMN/Dots.git && cd Dots
 
 cp -r .config ~/.config cp -r .local ~/.local
 echo "Installing Vim Plug"
