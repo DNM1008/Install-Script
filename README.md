@@ -27,10 +27,6 @@ Preparation:
       instance, if you installed Network Manager (like a human being) and
       enabled it, you want to disable systemd-networkd and iwd (again, having 2
       or more services doing the same thing is kinda a big no no)>
-    * Disable your display manager (SDDM or LightDM). The script will install
-      and enable `ly`, a more lightweight solution (I will admit that it's not
-      as pretty, but it's light and get the job done without looking *too*
-      barebone).
     * You are comfortable with a more "keyboard driven" workflow. The fact that
       you're using Arch probably means that you are probably comfortable with
       using the keyboard for everything, but if you're just hopping from GNOME
@@ -45,6 +41,7 @@ Preparation:
 To install:
 * Clone this repo
 * Run `install.sh` with sudo priviledges since we are installing software.
+* Or, simply `sudo wget -0 https://raw.guthubusercontent.com/DNM1008/Dots/master/install.sh | bash`
 
 **Note:** You should take a look at the script and see what it's doing. I am
 not good at coding and you might be able to improve it (very likely) and/or
