@@ -9,11 +9,25 @@ mkdir ~/Downloads && cd ~/Downloads
 
 git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
+# Updating
+yay
+
 echo "Installing software"
 
 #Placeholder#
-yay -S --no confirmfirefox alacritty discord betterdiscord-installer copyq dunst flameshot gh gimp lxappearance lx session qt5ct htop ibus libreoffice mailspring mpv neofetch neovim ngvim olive pcmanfm picom pulseaudio qbittorrent qtile qitle-extras rofi syncthing zathura tumbler poppler-glib ffmpegthumbnailer freetype2 libgsf rawthumbnailer totem evince gnome-epub-thumbnailer mcomix
-folder-preview starship xclip gnome-keyring
+yay -S --no confirm acpi alacritty alsa amixer pulseaudio pavucontrol alsa-utils cantarell-fonts catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mail spring neovim qtile qtile-extras rofi xorg xwallpaper xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-dj-vu zathura-pdf-mupdf-git zathura-ps-git
+
+echo "Installing fonts"
+
+yay -S adobe-sorce-code-pro-fonts nerdfonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono
+
+echo "Installing rofi theme"
+cd ~/Downloads
+git clone https://github.com/catppuccin/rofi.git && cd rofi/basic
+
+./install.sh
+
+echo "Install dependencis for bar functionality"
 
 yay -S python-pip
 sudo rm /usr/lib/python3.11/EXTERNALLY-MANAGED
@@ -23,37 +37,19 @@ cd ~/Downloads
 
 git clone https://github.com/DNM1008/Dots.git && cd Dots
 
-cp -r .config ~/.config cp -r .local ~/.local
-echo "Installing Vim Plug"
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-echo "Altering sudoer's bashrc to load bashrc and bash profile files in
-.config"
+cp -r .config ~/.config 
+
+echo "Install nvChad"
+
+git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
 
 
-#Placeholder
-sudo echo source /home/zeus/.config/bash/bash_profile>etc/bash.bashrc
-echo "Enabling nvim plugin"
-#Placeholder
- 
-vim +'PlugInstall' +qa
 
-echo "Installing pandoc and xelatex"
-yay --noconfirm -S pandoc xelatex
+sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
+
+echo "Defining the QT variable (it should be defined in bash_profile, but sometimes it doesn't work :)) :"
+
+sudo echo "QT_QPA_PLATFORMTHEME=qt5ct" >> /etc/environment
 
 
-echo "Installing fonts"
-yay --noconfirm -S gnu-free-fonts nerd-fonts-git nerd-fonts-coomplete-mono-glyphs
-
-echo "Running antidot and xdg ninja" 
-#Placeholder
-antidot clean
-
-echo "Downloading xdg ninja"
-git clone https://github.com/b3nj5m1n/xdg-ninja.git
-cd xdg-ninja && ./xdg-ninja.sh
-
-echo "It should be done, now you just have to delete the unused dotfiles in
-your home directory (.bashrc, .bashprofile, .xinitrc and the .nvim directory)
-echo "What's next?"
-echo "The system should be ready to go, but I'd install the Firefox userChrome files in my my repo as well"
+echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. Consider other functionalities such as bluetooth and CUPS for printing."
