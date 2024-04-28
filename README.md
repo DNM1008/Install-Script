@@ -40,8 +40,8 @@ Preparation:
 
 To install:
 * Clone this repo
-* Run `install.sh` with sudo priviledges since we are installing software.
-* Or, simply `sudo wget -0 https://raw.guthubusercontent.com/DNM1008/Dots/master/install.sh | bash`
+* Run `install.sh
+* Press Enter a bunch of times :) (I might have a script in the future that doesn't require pressing Enter)
 
 **Note:** You should take a look at the script and see what it's doing. I am
 not good at coding and you might be able to improve it (very likely) and/or
