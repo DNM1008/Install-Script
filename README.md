@@ -40,7 +40,7 @@ Preparation:
 
 To install:
 * Clone this repo
-* Run `install.sh
+* Run `install.sh`
 * Press Enter a bunch of times :) (I might have a script in the future that doesn't require pressing Enter)
 
 **Note:** You should take a look at the script and see what it's doing. I am
