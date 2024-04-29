@@ -19,7 +19,7 @@ yay -S  acpi alacritty alsa amixer pulseaudio pavucontrol alsa-utils cantarell-f
 
 echo "Installing fonts"
 
-yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono
+yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono ttf-linux-libertine ttf-inconsolata noto-fonts --noconfirm
 
 echo "Installing rofi theme"
 cd ~/Downloads
@@ -27,9 +27,9 @@ git clone https://github.com/catppuccin/rofi.git && cd rofi/basic
 
 ./install.sh
 
-echo "Install dependencis for bar functionality"
+echo "Installing pip"
 
-yay -S python-pip
+yay -S python-pip --noconfirm
 
 git clone https://github.com/DNM1008/Dots.git && cd Dots
 
