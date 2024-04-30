@@ -44,11 +44,7 @@ echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bash
 sudo cp ~/.config/gtk-2.0/gtkrc /etc/gtk-2.0/gtkrc
 echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
-
-
-
-
-echo "Installing nvChad"
+cho "Installing nvChad"
 
 git clone https://github.com/NvChad/starter ~/.config/nvim 
 
