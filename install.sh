@@ -2,6 +2,14 @@
 #
 user=$(whoami)
 
+echo "Enabling parallel downloads"
+
+sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+
+echo "Initial sync"
+
+sudo pacman -Syyu
+
 echo "Installing yay"
 
 mkdir ~/Downloads && cd ~/Downloads
@@ -49,9 +57,11 @@ git clone https://github.com/NvChad/starter ~/.config/nvim
 echo "Cleaning up"
 cd
 
-rm -r .bash_history .bash_profile .bash_logout .bashrc
-rm -r .gnupg/
-rm -r Install-Script/
+source .config/bash/bash_profile
+
+sudo rm -r .bash_history .bash_profile .bash_logout .bashrc
+sudo rm -r .gnupg/
+sudo rm -rf Install-Script/
 
 antidot update && antidot clean && eval "$(antidot init)"
 
