@@ -14,7 +14,7 @@ yay
 echo "Installing software"
 
 #Placeholder#
-yay -S  acpi pcmanfm alacritty alsa amixer pulseaudio pavucontrol alsa-utils cantarell-fonts catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mail spring neovim qtile qtile-extras rofi xorg xwallpaper xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-dj-vu zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly --noconfirm
+yay -S  antidot acpi pcmanfm alacritty alsa amixer pulseaudio pavucontrol alsa-utils cantarell-fonts catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mail spring neovim qtile qtile-extras rofi xorg xwallpaper xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-dj-vu zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly --noconfirm
 
 echo "Installing fonts"
 
@@ -46,5 +46,13 @@ echo "Install nvChad"
 
 git clone https://github.com/NvChad/starter ~/.config/nvim 
 
+echo "Cleaning up"
+cd
+
+rm -r .bash_history .bash_profile .bash_logout .bashrc
+rm -r .gnupg/
+rm -r Install-Script/
+
+antidot update && antidot clean && eval "$(antidot init)"
 
 echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. Consider other functionalities such as bluetooth and CUPS for printing. The first time you run neovim it will finish the NvChad installation. Reboot now for changes to take effect."
