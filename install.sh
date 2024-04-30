@@ -4,7 +4,7 @@ user=$(whoami)
 
 echo "Enabling parallel downloads"
 
-sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 
 echo "Initial sync"
 
