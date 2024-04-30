@@ -56,7 +56,7 @@ sudo systemctl enable ly
 sudo systemctl enable cups
 sudo usermod -aG lp $user
 # Enabling Bluetooth
-sudo systemctl enable bluetooth
+# sudo systemctl enable bluetooth
 echo "Cleaning up"
 cd
 
