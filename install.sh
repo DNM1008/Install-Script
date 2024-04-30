@@ -67,7 +67,9 @@ sudo rm -r .gnupg/
 sudo rm -rf Install-Script/
 yay -Scc --noconfirm
 
-antidot update && antidot clean && eval "$(antidot init)"
+antidot update 
+antidot clean 
+eval "$(antidot init)"
 
 echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. CUPS has been installed and enabled, however, you probably need to install the specific driver for your printer. To know what driver you need, consult the Arch Wiki. Bluetooth is installed and should be accessible through `bluetoothctl` or `bluetuith`. Consider install evremap to get custom keymaps. I have a config file already in `~/.config/evremap/evremap.toml`. Consult the Arch Wiki to get started. Reboot now for changes to take effect."
 
@@ -77,6 +79,6 @@ read -p "Press any key to reboot"
 # finishing up cleanup
 #
 
-rm ~/.bash_history
+sudo rm -r  ~/go
 
 reboot
