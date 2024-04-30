@@ -22,7 +22,7 @@ yay
 echo "Installing software"
 
 #Placeholder#
-yay -S  antidot acpi pcmanfm alacritty alsa amixer pulseaudio pavucontrol alsa-utils cantarell-fonts catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mail spring neovim qtile qtile-extras rofi xorg xwallpaper xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-dj-vu zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly --noconfirm
+yay -S  antidot acpi pcmanfm alacritty pulseaudio pavucontrol alsa-utils cantarell-fonts catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mailspring neovim qtile qtile-extras rofi xorg xwallpaper xorg-xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-djvu-git zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly cups system-config-printer bluez bluez-utils bluetuith python-pip evremap --noconfirm
 
 echo "Installing fonts"
 
@@ -34,26 +34,38 @@ git clone https://github.com/catppuccin/rofi.git && cd rofi/basic
 
 ./install.sh
 
-echo "Installing pip"
-
-yay -S python-pip --noconfirm
+echo "Installing da dots and sum system config"
 
 git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
 cp -r .config/* ~/.config/
-
-sudo systemctl enable ly
-
 # sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
 echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bashrc
 sudo cp ~/.config/gtk-2.0/gtkrc /etc/gtk-2.0/gtkrc
+echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
+
+echo "Config evremap"
+sudo cp evremap.service /usr/lib/systemd/system/evremap.service
+sudo ln -s $HOME/.config/evremap/config.toml /etc/evremap.toml
+sudo systemctl daemon-reload
+sudo systemctl enable evremap.service
 
 
 
-echo "Install nvChad"
+
+echo "Installing nvChad"
 
 git clone https://github.com/NvChad/starter ~/.config/nvim 
 
+echo "Enabling services"
+
+# Enabling the ly display manager
+sudo systemctl enable ly
+# Enabling CUPS
+sudo systemctl enable cups
+sudo usermod -aG lp $user
+# Enabling Bluetooth
+sudo systemctl enable bluetooth
 echo "Cleaning up"
 cd
 
@@ -62,7 +74,18 @@ source .config/bash/bash_profile
 sudo rm -r .bash_history .bash_profile .bash_logout .bashrc
 sudo rm -r .gnupg/
 sudo rm -rf Install-Script/
+yay -Scc --noconfirm
 
 antidot update && antidot clean && eval "$(antidot init)"
 
-echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. Consider other functionalities such as bluetooth and CUPS for printing. The first time you run neovim it will finish the NvChad installation. Reboot now for changes to take effect."
+echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. CUPS has been installed and enabled, however, you probably need to install the specific driver for your printer. To know what driver you need, consult the Arch Wiki. Bluetooth is installed and should be accessible through `bluetoothctl` or `bluetuith`. The first time you run neovim it will finish the NvChad installation. Reboot now for changes to take effect."
+
+read -p "Press any key to reboot"
+
+
+# finishing up cleanup
+#
+
+rm ~/.bash_history
+
+reboot
