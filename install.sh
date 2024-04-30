@@ -7,7 +7,7 @@ echo "Installing yay"
 
 mkdir ~/Downloads && cd ~/Downloads
 
-git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 
 # Updating
 yay
@@ -31,21 +31,20 @@ echo "Installing pip"
 
 yay -S python-pip --noconfirm
 
-git clone https://github.com/DNM1008/Dots.git && cd Dots
+git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
-cp -r .config ~/.config 
-
+cp -r .config/* ~/.config/
 
 sudo systemctl enable ly
 
-sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
+# sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
+echo "source /home/$user/.config/bash_profile" | sudo tee -a /etc/bash.bashrc
 
 
 
 echo "Install nvChad"
 
-git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+git clone https://github.com/NvChad/starter ~/.config/nvim 
 
-killall nvim
 
-echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. Consider other functionalities such as bluetooth and CUPS for printing."
+echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. Consider other functionalities such as bluetooth and CUPS for printing. The first time you run neovim it will finish the NvChad installation."
