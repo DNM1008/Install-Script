@@ -67,6 +67,7 @@ sudo rm -r .gnupg/
 sudo rm -rf Install-Script/
 yay -Scc --noconfirm
 
+sudo rm -r  ~/go
 antidot update 
 antidot clean 
 
@@ -78,6 +79,5 @@ read -p "Press any key to reboot"
 # finishing up cleanup
 #
 
-sudo rm -r  ~/go
 
 reboot
