@@ -42,28 +42,7 @@ To install:
 * Press Enter a bunch of times :) (I might have a script in the future that
 doesn't require pressing Enter)
 
-Additional Configurations:
-
-This is 99% my Linux setup. However, there is a small (but perhaps the most
-important) part, which is the keymap. I thought about having it setup from the
-get go, but it's kinda difficult, and I also have a system where I configured
-my keyboard by VIA, making the configuration unnecessary. If you don't have
-that (for example on a laptop), the config file is still in
-`~/.config/evremap/evremap.toml`. What you might want to do is install
-`evremap`. From there, you have a few options:
-
-* Download and put `evremap.service` in `/usr/lib/systemd/system/`, then either
-put `evremap.toml` in `/etc/evremap.toml` or put a symlink there that points
-towards wherever you put `evremap.toml` (again, the default location is
-`~/.config/evremap/evremap.toml`).
-* Edit `evremap.service` so that it points directly to your config file, then
-put it in `/usr/lib/systemd/system/`. The line that you want to look at is
-`ExecStart=bash -c "/usr/bin/evremap remap /etc/evremap.toml -d 0`. Change
-`/etc/evremap.toml` to wherever you put your config file. Note that you will
-have to use the **full** path, that is, if you want to point it to the default
-location, the location would have to be `/home/<your
-username>/.config/evremap/evremap.toml`. You can find your user name by running
-`whoami`. It's basically your login name.
+* This script install my keymap, which move Capslock to where Escape is, then shift Escape and Tab down (Tab would be Escape, Capslock would be Tab) and maps PgUp and PgDn to Back and Forward (I use a T430 which have PgUp and PgDn next to the Up arrow). You can disable the service out right by `sudo systemctle disable evremap` or edit the config file at `/etc/evremap.toml`.
 
 **Note:** You should take a look at the script and see what it's doing. I am
 not good at coding and you might be able to improve it (very likely) and/or
