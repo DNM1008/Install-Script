@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 user=$(whoami)
+wd=$(pwd)
 
 echo "Enabling parallel downloads"
 
@@ -19,19 +20,16 @@ git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 # Updating
 yay
 
-echo "Downloading dot files"
-git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
-
 echo "Installing software"
 
 #Placeholder#
 #yay -S  fastfetch antidot acpi pcmanfm alacritty pulseaudio pavucontrol alsa-utils catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mailspring neovim qtile qtile-extras rofi xorg xwallpaper xorg-xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-djvu-git zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly cups system-config-printer bluez bluez-utils bluetuith python-pip evremap --noconfirm
-yay -S --noconfirm - < packages.txt
+yay -S --noconfirm - < $wd/packages.txt
 
 echo "Installing fonts"
 
 #yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono ttf-linux-libertine ttf-inconsolata noto-fonts cantarell-fonts --noconfirm
-yay -S --noconfirm - < fonts.txt
+yay -S --noconfirm - < $wd/fonts.txt
 
 echo "Installing rofi theme"
 cd ~/Downloads
@@ -39,13 +37,14 @@ git clone https://github.com/catppuccin/rofi.git && cd rofi/basic
 
 echo "Installing rofi power menu"
 mkdir ~/.local/bin/scripts/
-cp ~/Install-Script/rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
+cd $wd
+cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
 
 ./install.sh
 
 echo "Installing da dots and sum system config"
 
-cd ~/Downloads/Dots
+git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
 cp -r .config/* ~/.config/
 # sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc

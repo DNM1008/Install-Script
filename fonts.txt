@@ -1,0 +1,10 @@
+adobe-source-code-pro-fonts
+cantarell-fonts
+nerd-fonts
+noto-fonts
+ttf-fira-mono
+ttf-iconsolata
+ttf-libertine
+ttf-ms-fonts
+ttf-tahoma
+ttf-vista-fonts

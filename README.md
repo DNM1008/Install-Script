@@ -38,6 +38,7 @@ might write a script that works on Debian in the future :).
 
 To install:
 * Clone this repo
+* (Optional): View and edit the packages.txt and fonts.txt to include/exclude the packages that you want. Not that you might break dependencies
 * Run `install.sh`
 * Press Enter a bunch of times :) (I might have a script in the future that
 doesn't require pressing Enter)
