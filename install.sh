@@ -19,14 +19,19 @@ git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 # Updating
 yay
 
+echo "Downloading dot files"
+git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
+
 echo "Installing software"
 
 #Placeholder#
-yay -S  fastfetch antidot acpi pcmanfm alacritty pulseaudio pavucontrol alsa-utils catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mailspring neovim qtile qtile-extras rofi xorg xwallpaper xorg-xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-djvu-git zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly cups system-config-printer bluez bluez-utils bluetuith python-pip evremap --noconfirm
+#yay -S  fastfetch antidot acpi pcmanfm alacritty pulseaudio pavucontrol alsa-utils catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mailspring neovim qtile qtile-extras rofi xorg xwallpaper xorg-xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-djvu-git zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly cups system-config-printer bluez bluez-utils bluetuith python-pip evremap --noconfirm
+yay -S --noconfirm - < packages.txt
 
 echo "Installing fonts"
 
-yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono ttf-linux-libertine ttf-inconsolata noto-fonts cantarell-fonts --noconfirm
+#yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono ttf-linux-libertine ttf-inconsolata noto-fonts cantarell-fonts --noconfirm
+yay -S --noconfirm - < fonts.txt
 
 echo "Installing rofi theme"
 cd ~/Downloads
@@ -40,7 +45,7 @@ cp ~/Install-Script/rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
 
 echo "Installing da dots and sum system config"
 
-git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
+cd ~/Downloads/Dots
 
 cp -r .config/* ~/.config/
 # sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
