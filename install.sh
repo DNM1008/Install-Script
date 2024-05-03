@@ -41,7 +41,6 @@ mkdir ~/.local/bin/scripts/
 cd $wd
 cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
 
-./install.sh
 
 echo "Installing da dots and sum system config"
 
