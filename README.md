@@ -9,6 +9,10 @@ utilises `pacman` and the AUR. It will install `yay` and then go from there. I
 might write a script that works on Debian in the future :).
 
 * Before running this script, make sure that the followings are correct:
+    * `base-devel` is installed. If you're using something like EndeavourOS or
+    Manjaro, chances are it's already been taken care of, but if you're using
+    mainline Arch, make sure that you have that installed. This is essential
+    anyway, since it allows things like `make` and `sudo`, among other things.
     * `git` is installed.
     * You are not using Pipewire. This script will install Pulseaudio, and
     having 2 audio servers (or 2 or more of anything that does the same thing)
