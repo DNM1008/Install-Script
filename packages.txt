@@ -16,12 +16,16 @@ ffmpegthumbnailer
 firefox
 fortune-mod
 gtk2
-i3lock
+i3lock-colorZQ
 ly
 mailspring
 maim
 neovim
 pcmanfm
+pavucontrol
+pulseaudio
+pulseaudio-alsa
+pulseaudio-bluetooth
 python
 python-pip
 python-psutil

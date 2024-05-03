@@ -11,6 +11,10 @@ echo "Initial sync"
 
 sudo pacman -Syyu --noconfirm
 
+echo "Installing potentially missing dependency"
+
+sudo pacman -S --noconfirm base-devel
+
 echo "Installing yay"
 
 mkdir ~/Downloads && cd ~/Downloads
