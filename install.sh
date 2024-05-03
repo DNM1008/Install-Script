@@ -9,9 +9,6 @@ sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 
 echo "Initial sync"
 
-sudo pacman -Syyu --noconfirm
-
-echo "Installing potentially missing dependency"
 
 sudo pacman -S --noconfirm base-devel
 
