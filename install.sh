@@ -40,6 +40,7 @@ echo "Installing rofi power menu"
 mkdir ~/.local/bin/scripts/
 cd $wd
 cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
+sudo cp rofi-power-menu /usr/bin/
 
 
 echo "Installing rofi theme"
