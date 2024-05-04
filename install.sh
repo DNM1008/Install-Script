@@ -42,6 +42,11 @@ cd $wd
 cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
 
 
+echo "Installing rofi theme"
+cd ~/Downloads/
+git clone https://github.com/catppuccin/rofi.git
+cd rofi/basic && ./install.sh
+
 echo "Installing da dots and sum system config"
 
 git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
