@@ -3,6 +3,10 @@
 user=$(whoami)
 wd=$(pwd)
 
+echo "Making Pacman look prettier"
+grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
+
 echo "Enabling parallel downloads"
 
 sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
