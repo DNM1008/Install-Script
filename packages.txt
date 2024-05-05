@@ -33,10 +33,12 @@ python-psutil
 python-pulsectl-asyncio
 qtile
 qtile-extras
+ranger
 rofi
 starship
 syncthing
 system-config-printer
+ueberzugpp
 udiskie
 xorg
 xorg-xrdb
