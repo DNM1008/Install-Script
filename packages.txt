@@ -43,7 +43,6 @@ system-config-printer
 thunar
 tumbler
 tumbler-extra-thumbnailers
-ueberzugpp
 udiskie
 xorg
 xorg-xrdb
