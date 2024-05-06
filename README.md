@@ -2,8 +2,7 @@
 
 Preparation:
 
-* This script is written with Arch in mind. You can probably get away with
-running it on an Arch derivative, but I cannot guarantee that it will work. You
+* This script is written with Arch in mind. Tested on a fresh Arch install, though I don't see why it wouldn't work in any Arch derivative. You
 won't be able to run this on anything Debian or Fedora-related, this script
 utilises `pacman` and the AUR. It will install `yay` and then go from there. I
 might write a script that works on Debian in the future :).
@@ -40,7 +39,7 @@ To install:
 * Clone this repo
 * (Optional): View and edit the packages.txt and fonts.txt to include/exclude the packages that you want. Not that you might break dependencies
 * Run `install.sh`
-* Press Enter a bunch of times :) (I might have a script in the future that
+* Press Enter a few times :) (I might have a script in the future that
 doesn't require pressing Enter)
 
 * This script install my keymap, which move Capslock to where Escape is, then shift Escape and Tab down (Tab would be Escape, Capslock would be Tab) and maps PgUp and PgDn to Back and Forward (I use a T430 which have PgUp and PgDn next to the Up arrow). You can disable the service out right by `sudo systemctle disable evremap` or edit the config file at `/etc/evremap.toml`.
