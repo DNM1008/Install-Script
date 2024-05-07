@@ -10,6 +10,7 @@ cmake
 cmatrix
 cups
 evremap
+eza
 fastfetch
 feh
 ffmpeg
@@ -48,8 +49,8 @@ xorg
 xorg-xrdb
 xss-lock
 xwallpaper
-zathura-git
 zathura-cb-git
 zathura-djvu-git
+zathura-git
 zathura-pdf-mupdf-git
 zathura-ps-git

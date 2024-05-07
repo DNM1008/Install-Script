@@ -35,9 +35,6 @@ echo "Installing fonts"
 #yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono ttf-linux-libertine ttf-inconsolata noto-fonts cantarell-fonts --noconfirm
 yay -S --noconfirm - < $wd/fonts.txt
 
-echo "Installing rofi theme"
-cd ~/Downloads
-git clone https://github.com/catppuccin/rofi.git && cd rofi/basic
 
 echo "Installing rofi power menu"
 mkdir ~/.local/bin/scripts/
@@ -52,6 +49,7 @@ git clone https://github.com/catppuccin/rofi.git
 cd rofi/basic && ./install.sh
 
 echo "Installing da dots and sum system config"
+cd ~/Downloads/
 
 git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
