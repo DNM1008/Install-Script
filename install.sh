@@ -3,8 +3,6 @@
 user=$(whoami)
 wd=$(pwd)
 echo "Removing password requirement for sudo commands"
-sudo cp sudoers_wo_pw /etc/sudoers
-echo "Done"
 
 echo "Making Pacman look prettier"
 grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
@@ -99,10 +97,6 @@ antidot clean
 eval "$(antidot init)"
 
 
-echo "Re-enabling password requirement for sudo commands"
-sudo cp sudoers_w_pw /etc/sudoers
-echo
-echo "Done"
 
 echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. CUPS has been installed and enabled, however, you probably need to install the specific driver for your printer. To know what driver you need, consult the Arch Wiki. Bluetooth is installed and should be accessible through 'bluetoothctl' or 'bluetuith'. If you don't use my keymap, disable evremap or edit the config file at '/etc/evremap.toml'. Consult the Arch Wiki for more. Reboot now for changes to take effect."
 
