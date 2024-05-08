@@ -70,7 +70,7 @@ echo "Enabling services"
 
 # Enabling evremap
 sudo cp ~/.config/evremap/evremap.toml /etc/evremap.toml
-sudo cp $pwd/Install-Script/evremap.service /usr/lib/systemd/system/
+sudo cp $wd/evremap.service /usr/lib/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable evremap
 
