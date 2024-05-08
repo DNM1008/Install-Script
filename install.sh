@@ -5,7 +5,7 @@ wd=$(pwd)
 echo "Removing password requirement for sudo commands"
 
 echo "Making Pacman look prettier"
-grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+sudo grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
 echo "Enabling parallel downloads"
 
@@ -14,7 +14,7 @@ sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 echo "Initial sync"
 
 
-sudo pacman -S --noconfirm base-devel
+sudo pacman -Syyu 
 
 echo "Installing yay"
 
