@@ -20,6 +20,7 @@ might write a script that works on Debian in the future :).
     switch to Pipewire once that functionality is up and going on Qtile. If you
     are already using Pipewire already, google how to disable Pipewire. The
     script will install and enable Pulseaudio.
+        * If you're running this script from Manajaro or EndeavourOS or anything like that, check if Pipewire is installed. The installation will fail if there is Pipewire of any kind on the system.
     * You are connected to the internet. This is probably more for me, but you
     want to check if you have 2 or more network services running. For instance,
     if you installed Network Manager (like a human being) and enabled it, you
