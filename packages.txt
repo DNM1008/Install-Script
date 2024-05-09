@@ -28,6 +28,7 @@ mailspring
 maim
 neovim
 poppler
+papirus-folders-catpuccin-git
 python
 python-pip
 python-psutil
