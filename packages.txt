@@ -9,6 +9,7 @@ catppuccin-gtk-theme-macchiato
 cmake
 cmatrix
 cups
+dunst
 evremap
 eza
 fastfetch
@@ -33,6 +34,7 @@ python-psutil
 python-pulsectl-asyncio
 qtile
 qtile-extras
+ranger
 raw-thumbnailer
 rofi
 starship
@@ -42,6 +44,7 @@ thunar
 tumbler
 tumbler-extra-thumbnailers
 udiskie
+ueberzugpp
 xorg
 xorg-xrdb
 xss-lock
