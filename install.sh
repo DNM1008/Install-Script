@@ -31,6 +31,9 @@ echo "Installing software"
 #yay -S  fastfetch antidot acpi pcmanfm alacritty pulseaudio pavucontrol alsa-utils catppuccin-gtk-theme-macchiato cmake cmatrix ffmpeg ffmpegthumbnailer firefox mailspring neovim qtile qtile-extras rofi xorg xwallpaper xorg-xrdb xss-lock i3lock udiskie zathura-git zathura-cb-git zathura-djvu-git zathura-pdf-mupdf-git zathura-ps-git python-psutil python-pulsectl-asyncio starship fortune-mod gtk2 ly cups system-config-printer bluez bluez-utils bluetuith python-pip evremap --noconfirm
 yay -S --noconfirm - < $wd/packages.txt
 
+echo "Installing audio stuff (separate in case of failure)"
+
+yay -S pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol --noconfirm
 echo "Installing fonts"
 
 #yay -S adobe-sorce-code-pro-fonts nerd-fonts ttf-ms-fonts ttf-tahoma ttf-vista-fonts ttf-fira-mono ttf-linux-libertine ttf-inconsolata noto-fonts cantarell-fonts --noconfirm
