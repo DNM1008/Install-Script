@@ -1,5 +1,6 @@
 adobe-source-code-pro-fonts
 cantarell-fonts
+libertinus-font
 nerd-fonts
 noto-fonts
 ttf-fira-mono
