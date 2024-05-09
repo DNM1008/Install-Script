@@ -47,10 +47,6 @@ cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
 sudo cp rofi-power-menu /usr/bin/
 
 
-echo "Installing rofi theme"
-cd ~/Downloads/
-git clone https://github.com/catppuccin/rofi.git
-cd rofi/basic && ./install.sh
 
 echo "Installing da dots and sum system config"
 cd ~/Downloads/
@@ -84,6 +80,10 @@ sudo systemctl enable cups
 sudo usermod -aG lp $user
 # Enabling Bluetooth
 sudo systemctl enable bluetooth
+echo "Installing rofi theme"
+cd ~/Downloads/
+git clone https://github.com/catppuccin/rofi.git
+cd rofi/basic && ./install.sh
 echo "Cleaning up"
 cd
 
