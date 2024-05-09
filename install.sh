@@ -84,6 +84,11 @@ echo "Installing rofi theme"
 cd ~/Downloads/
 git clone https://github.com/catppuccin/rofi.git
 cd rofi/basic && ./install.sh
+
+echo "Installing Papirus theme"
+yay -S papirus-folders-catpuccin-git
+
+
 echo "Cleaning up"
 cd
 
