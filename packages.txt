@@ -17,6 +17,7 @@ ffmpeg
 ffmpegthumbnailer
 firefox
 fortune-mod
+gnome-keyring
 gtk2
 gvfs
 i3lock-colorZQ
