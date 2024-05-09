@@ -26,11 +26,7 @@ ly
 mailspring
 maim
 neovim
-pavucontrol
 poppler
-pulseaudio
-pulseaudio-alsa
-pulseaudio-bluetooth
 python
 python-pip
 python-psutil
