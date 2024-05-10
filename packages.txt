@@ -21,7 +21,7 @@ fortune-mod
 gnome-keyring
 gtk2
 gvfs
-i3lock-colorZQ
+i3lock-color
 libgsf
 ly
 mailspring

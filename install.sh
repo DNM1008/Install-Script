@@ -20,7 +20,8 @@ echo "Installing yay"
 
 mkdir ~/Downloads && cd ~/Downloads
 
-git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
+git clone https://aur.archlinux.org/yay.git && cd yay
+makepkg -si --noconfirm
 
 # Updating
 yay
