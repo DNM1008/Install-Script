@@ -2,7 +2,7 @@
 
 Preparation:
 
-* This script is written with Arch in mind. Tested on a fresh Arch install, though I don't see why it wouldn't work in any Arch derivative. You
+* This script is written with Arch in mind. Tested on a fresh Arch install. You
 won't be able to run this on anything Debian or Fedora-related, this script
 utilises `pacman` and the AUR. It will install `yay` and then go from there. I
 might write a script that works on Debian in the future :).
@@ -37,11 +37,16 @@ might write a script that works on Debian in the future :).
 
 
 To install:
-* Clone this repo
-* (Optional): View and edit the packages.txt and fonts.txt to include/exclude the packages that you want. Not that you might break dependencies
-* Run `install.sh`
-* Press Enter a few times :) (I might have a script in the future that
+* On a minimal Arch install:
+    * Clone this repo
+    * (Optional): View and edit the packages.txt and fonts.txt to include/exclude the packages that you want. Not that you might break dependencies
+    * Run `install.sh`
+    * Press Enter a few times :) (I might have a script in the future that
 doesn't require pressing Enter)
+* On a more desktop ready Arch install or any of the Arch derivatives: Do this before cloning and running the script:
+    * Disable your display manager service if you have one enabled (something like SDDM or GDM or LightDM) or delete the line `ly` in `packages.txt`. As is, this script will try and install ly for you.
+    * Chances are that you already have bluetooth and/or printer set up, so delete those from the packages file as well. (Reinstall and re-enable should technically not hurt, though it would take more time).
+
 
 * This script install my keymap, which move Capslock to where Escape is, then shift Escape and Tab down (Tab would be Escape, Capslock would be Tab) and maps PgUp and PgDn to Back and Forward (I use a T430 which have PgUp and PgDn next to the Up arrow). You can disable the service out right by `sudo systemctle disable evremap` or edit the config file at `/etc/evremap.toml`.
 
