@@ -44,7 +44,7 @@ To install:
     * Press Enter a few times :) (I might have a script in the future that
 doesn't require pressing Enter)
 * On a more desktop ready Arch install or any of the Arch derivatives: Do this before cloning and running the script:
-    * Disable your display manager service if you have one enabled (something like SDDM or GDM or LightDM) or delete the line `ly` in `packages.txt`. As is, this script will try and install ly for you.
+    * Disable your display manager service if you have one enabled (something like SDDM or GDM or LightDM) or delete the line `ly` in `packages.txt`. As is, this script will try and install ly for you, then it will try and activate it.
     * Chances are that you already have bluetooth and/or printer set up, so delete those from the packages file as well. (Reinstall and re-enable should technically not hurt, though it would take more time).
 
 
