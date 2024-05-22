@@ -19,6 +19,7 @@ ffmpegthumbnailer
 firefox
 fortune-mod
 gnome-keyring
+greenclip
 gtk2
 gvfs
 i3lock-color
@@ -27,8 +28,8 @@ ly
 mailspring
 maim
 neovim
-poppler
 papirus-folders-catpuccin-git
+poppler
 python
 python-pip
 python-psutil
