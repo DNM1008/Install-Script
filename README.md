@@ -48,8 +48,6 @@ doesn't require pressing Enter)
     * Chances are that you already have bluetooth and/or printer set up, so delete those from the packages file as well. (Reinstall and re-enable should technically not hurt, though it would take more time).
 
 
-* This script install my keymap, which move Capslock to where Escape is, then shift Escape and Tab down (Tab would be Escape, Capslock would be Tab) and maps PgUp and PgDn to Back and Forward (I use a T430 which have PgUp and PgDn next to the Up arrow). You can disable the service out right by `sudo systemctle disable evremap` or edit the config file at `/etc/evremap.toml`.
-
 **Note:** You should take a look at the script and see what it's doing. I am
 not good at coding and you might be able to improve it (very likely) and/or
 tweak it to your liking (also very likely).

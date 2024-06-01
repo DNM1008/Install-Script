@@ -10,7 +10,6 @@ cmake
 cmatrix
 cups
 dunst
-evremap
 eza
 fastfetch
 feh
@@ -20,7 +19,7 @@ firefox
 fortune-mod
 gnome-keyring
 greenclip
-gtk2
+gtk3
 gvfs
 i3lock-color
 libgsf

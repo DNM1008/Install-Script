@@ -59,7 +59,6 @@ mkdir -p ~/.local/bin/scripts/
 cp -r .local/* ~/.local/
 # sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
 echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bashrc
-sudo cp ~/.config/gtk-2.0/gtkrc /etc/gtk-2.0/gtkrc
 echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
 echo "Installing nvChad"
@@ -68,11 +67,6 @@ git clone https://github.com/NvChad/starter ~/.config/nvim
 
 echo "Enabling services"
 
-# Enabling evremap
-sudo cp ~/.config/evremap/evremap.toml /etc/evremap.toml
-sudo cp $wd/evremap.service /usr/lib/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable evremap
 
 # Enabling the ly display manager
 sudo systemctl enable ly
