@@ -99,7 +99,12 @@ eval "$(antidot init)"
 
 
 
-echo "The basic setup should be done for now, to get your system to a more functional state, consider install pandoc and texlive, or if it's not what you're looking for, libre office. CUPS has been installed and enabled, however, you probably need to install the specific driver for your printer. To know what driver you need, consult the Arch Wiki. Bluetooth is installed and should be accessible through 'bluetoothctl' or 'bluetuith'. If you don't use my keymap, disable evremap or edit the config file at '/etc/evremap.toml'. Consult the Arch Wiki for more. Reboot now for changes to take effect."
+echo "The basic setup should be done for now, to get your system to a more
+functional state, consider install pandoc and texlive, or if it's not what
+you're looking for, libre office. CUPS has been installed and enabled, however,
+you probably need to install the specific driver for your printer. To know what
+driver you need, consult the Arch Wiki. Bluetooth is installed and should be
+accessible through 'bluetoothctl' or 'bluetuith'.
 
 read -p "Press any key to reboot"
 
