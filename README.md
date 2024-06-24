@@ -20,12 +20,14 @@ might write a script that works on Debian in the future :).
     switch to Pipewire once that functionality is up and going on Qtile. If you
     are already using Pipewire already, google how to disable Pipewire. The
     script will install and enable Pulseaudio.
-        * If you're running this script from Manajaro or EndeavourOS or anything like that, check if Pipewire is installed. The installation will fail if there is Pipewire of any kind on the system.
+        * If you're running this script from Manajaro or EndeavourOS or
+        anything like that, check if Pipewire is installed. The installation
+        will fail if there is Pipewire of any kind on the system.
     * You are connected to the internet. This is probably more for me, but you
     want to check if you have 2 or more network services running. For instance,
     if you installed Network Manager (like a human being) and enabled it, you
     want to disable systemd-networkd and iwd (again, having 2 or more services
-    doing the same thing is kinda a big no no)>
+    doing the same thing is kinda a big no no).
     * You are comfortable with a more "keyboard driven" workflow. The fact that
     you're using Arch probably means that you are probably comfortable with
     using the keyboard for everything, but if you're just hopping from GNOME or
@@ -39,13 +41,21 @@ might write a script that works on Debian in the future :).
 To install:
 * On a minimal Arch install:
     * Clone this repo
-    * (Optional): View and edit the packages.txt and fonts.txt to include/exclude the packages that you want. Not that you might break dependencies
+    * (Optional): View and edit the packages.txt and fonts.txt to
+    include/exclude the packages that you want. Not that you might break
+    dependencies
     * Run `install.sh`
     * Press Enter a few times :) (I might have a script in the future that
-doesn't require pressing Enter)
-* On a more desktop ready Arch install or any of the Arch derivatives: Do this before cloning and running the script:
-    * Disable your display manager service if you have one enabled (something like SDDM or GDM or LightDM) or delete the line `ly` in `packages.txt`. As is, this script will try and install ly for you, then it will try and activate it.
-    * Chances are that you already have bluetooth and/or printer set up, so delete those from the packages file as well. (Reinstall and re-enable should technically not hurt, though it would take more time).
+    doesn't require pressing Enter)
+* On a more desktop ready Arch install or any of the Arch derivatives: Do this
+before cloning and running the script:
+    * Disable your display manager service if you have one enabled (something
+    like SDDM or GDM or LightDM) or delete the line `ly` in `packages.txt`. As
+    is, this script will try and install ly for you, then it will try and
+    activate it.
+    * Chances are that you already have bluetooth and/or printer set up, so
+    delete those from the packages file as well. (Reinstall and re-enable
+    should technically not hurt, though it would take more time).
 
 
 **Note:** You should take a look at the script and see what it's doing. I am
