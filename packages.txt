@@ -28,8 +28,10 @@ mailspring
 maim
 neovim
 papirus-folders-catpuccin-git
+pavucontrol
 poppler
 python
+python-dbus-next
 python-pip
 python-psutil
 python-pulsectl-asyncio
