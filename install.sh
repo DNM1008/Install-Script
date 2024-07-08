@@ -55,7 +55,6 @@ cd ~/Downloads/
 git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
 cp -r .config/* ~/.config/
-mkdir -p ~/.local/bin/scripts/
 cp -r .local/* ~/.local/
 # sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
 echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bashrc
