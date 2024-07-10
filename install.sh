@@ -103,7 +103,7 @@ functional state, consider install pandoc and texlive, or if it's not what
 you're looking for, libre office. CUPS has been installed and enabled, however,
 you probably need to install the specific driver for your printer. To know what
 driver you need, consult the Arch Wiki. Bluetooth is installed and should be
-accessible through 'bluetoothctl' or 'bluetuith'.
+accessible through 'bluetoothctl' or 'bluetuith'."
 
 read -p "Press any key to reboot"
 
