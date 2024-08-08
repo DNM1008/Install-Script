@@ -56,6 +56,7 @@ git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
 cp -r .config/* ~/.config/
 cp -r .local/* ~/.local/
+sudo cp 30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
 # sudo echo "source /home/$user/.config/bash_profile" >> /etc/bash.bashrc
 echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bashrc
 echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
