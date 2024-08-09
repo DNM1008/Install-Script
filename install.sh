@@ -1,5 +1,6 @@
 #!/bin/sh
 #
+set -e
 user=$(whoami)
 wd=$(pwd)
 echo "Removing password requirement for sudo commands"
