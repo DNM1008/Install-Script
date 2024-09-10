@@ -48,7 +48,8 @@ cd $wd
 cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
 sudo cp rofi-power-menu /usr/bin/
 
-
+echo "Installing LunarVim"
+LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
 
 echo "Installing da dots and sum system config"
 cd ~/Downloads/
@@ -62,9 +63,7 @@ sudo cp 30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
 echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bashrc
 echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
-echo "Installing nvChad"
 
-git clone https://github.com/NvChad/starter ~/.config/nvim 
 
 echo "Enabling services"
 
