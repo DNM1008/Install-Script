@@ -159,12 +159,6 @@ cat "$wd/packages/core.txt" "${selected_group_files[@]}" | yay -S --needed --noc
 echo "Installing fonts"
 yay -S --needed --noconfirm - <$wd/fonts.txt
 
-# ── LunarVim ──────────────────────────────────────────────────────────────────
-# LunarVim is an opinionated Neovim distribution. The dots repo contains the
-# Neovim config but LunarVim provides the base layer.
-echo "Installing LunarVim"
-LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
-
 # ── Dotfiles ──────────────────────────────────────────────────────────────────
 # Clones the Dots repo and copies configs into place. This overwrites any
 # existing files in ~/.config and ~/.local — intentional on a fresh install.

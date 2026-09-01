@@ -111,15 +111,6 @@ the script finishes, run `antidot clean` again manually.
 
 ---
 
-## LunarVim
-
-LunarVim is pinned to `release-1.4/neovim-0.9`. If that branch is removed
-upstream, the curl install will fail silently or error. Check
-https://github.com/LunarVim/LunarVim for the current recommended install
-command.
-
----
-
 ## Multi-monitor setup (Qtile, not yet implemented)
 
 The old Qtile config used hardcoded `xrandr` calls in
