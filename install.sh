@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Post-installation setup script for Arch Linux.
 # Assumes a minimal Arch install with base-devel, git, and an active internet connection.
@@ -7,6 +7,70 @@ set -e
 
 user=$(whoami)
 wd=$(pwd)
+
+# ── Desktop/compositor choice ───────────────────────────────────────────────
+# Only KDE is implemented right now. Qtile is kept as a menu option so it's
+# obvious it's planned, but selecting it just exits.
+choose_de() {
+	echo "Which desktop/session do you want to set up?"
+	select choice in "KDE Plasma (Wayland)" "Qtile (not yet implemented)"; do
+		case $choice in
+		"KDE Plasma (Wayland)")
+			de="kde"
+			break
+			;;
+		"Qtile (not yet implemented)")
+			de="qtile"
+			break
+			;;
+		*) echo "Invalid choice, pick 1 or 2." ;;
+		esac
+	done
+}
+
+choose_de
+
+if [ "$de" = "qtile" ]; then
+	echo "Qtile support isn't implemented in this script yet. Exiting."
+	exit 1
+fi
+
+# ── Hardware detection ──────────────────────────────────────────────────────
+# Cross-checks detected GPU(s) against packages.txt and offers to append any
+# missing driver packages. Doesn't touch anything without confirmation.
+recommend_gpu_packages() {
+	echo "Detecting GPU(s)..."
+	local gpu_info recommended=()
+	gpu_info=$(lspci -k | grep -iE 'vga compatible controller|3d controller|display controller')
+	echo "$gpu_info"
+
+	if echo "$gpu_info" | grep -qi nvidia; then
+		recommended+=(nvidia-open-dkms libva-nvidia-driver envycontrol)
+	fi
+	if echo "$gpu_info" | grep -qi intel; then
+		recommended+=(mesa vulkan-intel intel-media-driver)
+	fi
+	if echo "$gpu_info" | grep -qiE 'amd|advanced micro devices|radeon'; then
+		recommended+=(mesa vulkan-radeon xf86-video-amdgpu)
+	fi
+
+	local missing=()
+	for pkg in "${recommended[@]}"; do
+		grep -qx "$pkg" "$wd/packages.txt" || missing+=("$pkg")
+	done
+
+	if [ "${#missing[@]}" -gt 0 ]; then
+		echo "Based on your GPU(s), consider adding these packages: ${missing[*]}"
+		read -p "Append them to packages.txt now? [y/N] " ans
+		if [[ "$ans" =~ ^[Yy]$ ]]; then
+			printf '%s\n' "${missing[@]}" >>"$wd/packages.txt"
+		fi
+	else
+		echo "No additional GPU packages recommended — packages.txt already covers detected hardware."
+	fi
+}
+
+recommend_gpu_packages
 
 # ── Pacman tweaks ─────────────────────────────────────────────────────────────
 # ILoveCandy replaces the progress bar with a Pac-Man animation.
@@ -35,25 +99,11 @@ yay
 # ── Package installation ───────────────────────────────────────────────────────
 # packages.txt lists both official and AUR packages, one per line.
 echo "Installing software"
-yay -S --noconfirm - < $wd/packages.txt
-
-# Audio is installed separately so that a PipeWire conflict doesn't abort the
-# whole script. If this step fails, remove PipeWire first (see NOTES.md).
-echo "Installing audio stuff (separate in case of failure)"
-yay -S pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol --noconfirm
+yay -S --noconfirm - <$wd/packages.txt
 
 # fonts.txt lists font packages, kept separate so they're easy to trim.
 echo "Installing fonts"
-yay -S --noconfirm - < $wd/fonts.txt
-
-# ── Rofi power menu ───────────────────────────────────────────────────────────
-# Installs the custom rofi-power-menu script both for the user and system-wide
-# so it's callable from rofi without a full path.
-echo "Installing rofi power menu"
-mkdir ~/.local/bin/scripts/
-cd $wd
-cp rofi-power-menu ~/.local/bin/scripts/rofi-power-menu
-sudo cp rofi-power-menu /usr/bin/
+yay -S --noconfirm - <$wd/fonts.txt
 
 # ── LunarVim ──────────────────────────────────────────────────────────────────
 # LunarVim is an opinionated Neovim distribution. The dots repo contains the
@@ -71,9 +121,6 @@ git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 cp -r .config/* ~/.config/
 cp -r .local/* ~/.local/
 
-# Touchpad: enables tap-to-click system-wide via X11 config.
-sudo cp 30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
-
 # Sources the custom bash profile for all users so XDG paths and env vars are
 # available in every shell session, not just interactive ones.
 echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bashrc
@@ -84,9 +131,8 @@ echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 # ── System services ───────────────────────────────────────────────────────────
 echo "Enabling services"
 
-# ly: a lightweight TUI display manager. Disable your existing DM first if
-# running on a desktop-ready install (see readme.md).
-sudo systemctl enable ly
+# sddm: KDE's display manager, driving the Wayland Plasma session.
+sudo systemctl enable sddm
 
 # CUPS: printing support. You'll still need to install your printer's driver
 # separately — consult the Arch Wiki for the right package.

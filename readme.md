@@ -1,27 +1,30 @@
 # Arch Linux Install Script
 
 Automates the post-installation setup of a minimal Arch system into a fully
-configured Qtile desktop. Pairs with the
-[Dots](https://github.com/DNM1008/Dots) repository, which provides all the
+configured desktop. Currently targets **KDE Plasma on Wayland**; Qtile is
+planned but not implemented yet (the script exits if you pick it). Pairs with
+the [Dots](https://github.com/DNM1008/Dots) repository, which provides all the
 configuration files.
 
 ---
 
 ## What it does
 
-1. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
-2. **System update** — full sync and upgrade before installing anything
-3. **yay** — bootstraps the AUR helper (needed for most packages)
-4. **Packages** — installs everything in `packages.txt` via yay
-5. **Audio** — installs PulseAudio separately so a PipeWire conflict doesn't
-   abort the whole script
-6. **Fonts** — installs everything in `fonts.txt`
-7. **Rofi power menu** — copies the custom power menu script to
-   `~/.local/bin/scripts/` and `/usr/bin/`
+1. **Desktop choice** — prompts for KDE Plasma or Qtile. Only KDE is
+   implemented right now; picking Qtile exits the script.
+2. **Hardware detection** — checks detected GPU(s) against `packages.txt` and
+   offers to append any missing driver packages (e.g. `nvidia-open-dkms`,
+   `vulkan-intel`, `vulkan-radeon`)
+3. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
+4. **System update** — full sync and upgrade before installing anything
+5. **yay** — bootstraps the AUR helper (needed for most packages)
+6. **Packages** — installs everything in `packages.txt` via yay, including
+   PipeWire (KDE's default audio stack)
+7. **Fonts** — installs everything in `fonts.txt`
 8. **LunarVim** — installs the LunarVim Neovim distribution
 9. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/` into
-   place; sets up tap-to-click, a system-wide bash profile, and Qt theming
-10. **Services** — enables `ly` (display manager), CUPS (printing), and
+   place; sets up a system-wide bash profile and Qt theming
+10. **Services** — enables `sddm` (display manager), CUPS (printing), and
     Bluetooth
 11. **Rofi theme** — installs the Catppuccin Macchiato rofi theme
 12. **Cleanup** — removes default bash files, clears the package cache, and
@@ -38,8 +41,6 @@ configuration files.
 - Active internet connection with only one network manager running (if you have
   both NetworkManager and systemd-networkd enabled, disable the one you're not
   using)
-- **No PipeWire** — the script installs PulseAudio; having both causes
-  conflicts. If PipeWire is present, remove it before running the script
 
 ---
 
@@ -73,11 +74,9 @@ removing packages that others depend on.
 If you already have a working desktop (EndeavourOS, Manjaro, etc.):
 
 - **Display manager** — disable or remove your existing DM service, or delete
-  `ly` from `packages.txt`. Two DMs enabled at once will cause a broken boot.
+  `sddm` from `packages.txt`. Two DMs enabled at once will cause a broken boot.
 - **Bluetooth / printing** — already set up on most derivatives; safe to
   reinstall but it adds time.
-- **PipeWire** — most desktop-ready installs ship PipeWire. Remove it before
-  running or the audio step will fail.
 
 ---
 
@@ -91,8 +90,8 @@ These are not handled by the script and need to be done manually:
   `libreoffice` for a full suite.
 - **Default terminal** — see NOTES.md; the script doesn't configure which
   terminal KDE or Thunar use.
-- **Display configuration** — if you have multiple monitors, adjust the
-  `xrandr` calls in `~/.config/qtile/autostart.sh` to match your setup.
+- **Display configuration** — KDE's System Settings handles multi-monitor
+  layout; no manual `xrandr` setup needed like the old Qtile config required.
 - **Bluetooth pairing** — use `bluetuith` (TUI) or `bluetoothctl` to pair
   devices.
 

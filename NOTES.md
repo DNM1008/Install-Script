@@ -5,33 +5,28 @@ obvious from reading the script.
 
 ---
 
-## Audio: PipeWire conflict
+## Display manager: sddm
 
-The audio step installs PulseAudio. If PipeWire is already installed (common on
-Manjaro, EndeavourOS, and any GNOME-based install), this will fail.
-
-To remove PipeWire before running:
-```sh
-sudo pacman -Rns pipewire pipewire-alsa pipewire-pulse wireplumber
-```
-
-The script installs PulseAudio separately from the main package list precisely
-so a failure here doesn't abort everything else.
-
----
-
-## Display manager: ly
-
-The script enables `ly` as the display manager. If another DM is already
-enabled (SDDM, GDM, LightDM), you'll get a broken boot because two DMs can't
-both run.
+The script enables `sddm` as the display manager (KDE's default). If another
+DM is already enabled (GDM, LightDM, ly), you'll get a broken boot because two
+DMs can't both run.
 
 Before running the script on a non-minimal install:
 ```sh
-sudo systemctl disable sddm   # or gdm, lightdm, etc.
+sudo systemctl disable gdm   # or lightdm, ly, etc.
 ```
 
-Or remove `ly` from `packages.txt` and enable your preferred DM manually.
+Or remove `sddm` from `packages.txt` and enable your preferred DM manually.
+
+---
+
+## GPU detection
+
+The script greps `lspci -k` for VGA/3D/display controllers and recommends
+driver packages based on vendor strings (`nvidia`, `intel`, `amd`/`radeon`).
+It only appends to `packages.txt` if you confirm the prompt — it never
+installs anything on its own. If your GPU isn't detected correctly, add the
+driver packages to `packages.txt` manually before running.
 
 ---
 
@@ -100,17 +95,12 @@ command.
 
 ---
 
-## Multi-monitor setup
+## Multi-monitor setup (Qtile, not yet implemented)
 
-The `~/.config/qtile/autostart.sh` contains `xrandr` calls hardcoded to a
-specific dual-monitor layout (eDP-1 internal + HDMI-2 external). If your
-outputs are named differently or you have a different arrangement, edit that
-file before your first login.
-
-Check your output names with:
-```sh
-xrandr --query
-```
+The old Qtile config used hardcoded `xrandr` calls in
+`~/.config/qtile/autostart.sh` for a specific dual-monitor layout. Not
+relevant to the current KDE path — KDE's System Settings handles multi-monitor
+layout directly. This note is kept for whenever Qtile support is built out.
 
 ---
 
@@ -135,9 +125,3 @@ cat /etc/environment
 ```
 
 ---
-
-## Rofi power menu
-
-Installed to both `~/.local/bin/scripts/rofi-power-menu` and `/usr/bin/`.
-If rofi can't find it, check that `~/.local/bin/scripts/` is in your `$PATH`
-(it should be, via the bash profile from the Dots repo).
