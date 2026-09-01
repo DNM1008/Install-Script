@@ -13,6 +13,7 @@ lazygit
 mirro-rs
 npm
 ngrok
+shellcheck
 starship
 strace
 tree

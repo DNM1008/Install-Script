@@ -61,6 +61,7 @@ pipewire-pulse
 plasma-meta
 power-profiles-daemon
 qt5-declarative
+qt5-wayland-decorations
 qt6ct
 raw-thumbnailer
 refind-theme-catppuccin-git
@@ -87,6 +88,7 @@ webp-pixbuf-loader
 wget
 wireplumber
 wpa_supplicant
+xdg-terminal-exec
 xdg-utils
 yay
 zip
