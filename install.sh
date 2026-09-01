@@ -161,13 +161,12 @@ yay -S --needed --noconfirm - <$wd/fonts.txt
 
 # ── Dotfiles ──────────────────────────────────────────────────────────────────
 # Clones the Dots repo and copies configs into place. This overwrites any
-# existing files in ~/.config and ~/.local — intentional on a fresh install.
+# existing files in ~/.config — intentional on a fresh install.
 echo "Installing da dots and sum system config"
 cd ~/Downloads/
 git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
 cp -r .config/* ~/.config/
-cp -r .local/* ~/.local/
 
 # Sources the custom bash profile for all users so XDG paths and env vars are
 # available in every shell session, not just interactive ones.

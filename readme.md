@@ -27,8 +27,8 @@ configuration files.
 9. **Packages** — installs `packages/core.txt` plus whichever optional groups
    were selected, including PipeWire (KDE's default audio stack)
 10. **Fonts** — installs everything in `fonts.txt`
-11. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/` into
-    place (Neovim config included); sets up a system-wide bash profile and Qt
+11. **Dotfiles** — clones the Dots repo and copies `.config/` into place
+    (Neovim config included); sets up a system-wide bash profile and Qt
     theming
 12. **Services** — enables `sddm` (display manager) always; a menu lets you
     skip CUPS (printing) or Bluetooth
