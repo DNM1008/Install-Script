@@ -24,24 +24,24 @@ sudo -v
 sudo_keepalive_pid=$!
 trap 'kill "$sudo_keepalive_pid" 2>/dev/null' EXIT
 
+# ── Menu UI ──────────────────────────────────────────────────────────────────
+# dialog draws the ncurses boxes used for every prompt below. It's an official
+# repo package so it can be installed straight away, before yay exists.
+echo "Installing dialog for interactive menus"
+sudo pacman -S --needed --noconfirm dialog
+
+backtitle="Arch Install Script"
+
 # ── Desktop/compositor choice ───────────────────────────────────────────────
 # Only KDE is implemented right now. Qtile is kept as a menu option so it's
 # obvious it's planned, but selecting it just exits.
 choose_de() {
-	echo "Which desktop/session do you want to set up?"
-	select choice in "KDE Plasma (Wayland)" "Qtile (not yet implemented)"; do
-		case $choice in
-		"KDE Plasma (Wayland)")
-			de="kde"
-			break
-			;;
-		"Qtile (not yet implemented)")
-			de="qtile"
-			break
-			;;
-		*) echo "Invalid choice, pick 1 or 2." ;;
-		esac
-	done
+	de=$(dialog --backtitle "$backtitle" --title "Desktop choice" \
+		--menu "Which desktop/session do you want to set up?" 12 60 2 \
+		kde "KDE Plasma (Wayland)" \
+		qtile "Qtile (not yet implemented)" \
+		3>&1 1>&2 2>&3)
+	clear
 }
 
 choose_de
@@ -55,10 +55,8 @@ fi
 # Cross-checks detected GPU(s) against packages/core.txt and offers to append
 # any missing driver packages. Doesn't touch anything without confirmation.
 recommend_gpu_packages() {
-	echo "Detecting GPU(s)..."
 	local gpu_info recommended=()
 	gpu_info=$(lspci -k | grep -iE 'vga compatible controller|3d controller|display controller')
-	echo "$gpu_info"
 
 	if echo "$gpu_info" | grep -qi nvidia; then
 		recommended+=(nvidia-open-dkms libva-nvidia-driver envycontrol)
@@ -78,21 +76,17 @@ recommend_gpu_packages() {
 	done
 
 	if [ "${#missing[@]}" -eq 0 ]; then
-		echo "No additional GPU packages recommended — packages/core.txt already covers detected hardware."
+		dialog --backtitle "$backtitle" --title "GPU packages" \
+			--msgbox "Detected:\n${gpu_info}\n\nNo additional GPU packages recommended — packages/core.txt already covers detected hardware." 15 70
+		clear
 		return
 	fi
 
-	echo "Based on your GPU(s), consider adding these packages: ${missing[*]}"
-	select gpu_choice in "Add them to packages/core.txt" "Skip"; do
-		case $gpu_choice in
-		"Add them to packages/core.txt")
-			printf '%s\n' "${missing[@]}" >>"$wd/packages/core.txt"
-			break
-			;;
-		"Skip") break ;;
-		*) echo "Invalid choice, pick 1 or 2." ;;
-		esac
-	done
+	if dialog --backtitle "$backtitle" --title "GPU packages" \
+		--yesno "Detected:\n${gpu_info}\n\nBased on your GPU(s), consider adding these packages:\n${missing[*]}\n\nAdd them to packages/core.txt now?" 18 70; then
+		printf '%s\n' "${missing[@]}" >>"$wd/packages/core.txt"
+	fi
+	clear
 }
 
 recommend_gpu_packages
@@ -105,18 +99,23 @@ group_files=("dev.txt" "office.txt" "wayland-tools.txt" "vpn-sync.txt" "printing
 selected_group_files=()
 
 choose_package_groups() {
-	echo "Optional package groups (all selected by default):"
+	local checklist_args=()
 	local i
 	for i in "${!group_labels[@]}"; do
-		printf "  %d) %s\n" "$((i + 1))" "${group_labels[$i]}"
+		checklist_args+=("${group_files[$i]}" "${group_labels[$i]}" "on")
 	done
-	read -p "Enter numbers to SKIP (space-separated), or press Enter to install all: " skip
 
-	for i in "${!group_files[@]}"; do
-		if [[ " $skip " != *" $((i + 1)) "* ]]; then
-			selected_group_files+=("$wd/packages/${group_files[$i]}")
-		fi
-	done
+	local chosen
+	chosen=$(dialog --backtitle "$backtitle" --title "Optional package groups" \
+		--separate-output \
+		--checklist "Space to toggle, Enter to confirm:" 18 70 "${#group_labels[@]}" \
+		"${checklist_args[@]}" \
+		3>&1 1>&2 2>&3)
+	clear
+
+	while IFS= read -r file; do
+		[ -n "$file" ] && selected_group_files+=("$wd/packages/$file")
+	done <<<"$chosen"
 }
 
 choose_package_groups
@@ -205,19 +204,25 @@ service_labels=("CUPS (printing)" "Bluetooth")
 service_units=("cups" "bluetooth")
 
 choose_services() {
-	echo "Optional services (all selected by default):"
+	local checklist_args=()
 	local i
 	for i in "${!service_labels[@]}"; do
-		printf "  %d) %s\n" "$((i + 1))" "${service_labels[$i]}"
+		checklist_args+=("${service_units[$i]}" "${service_labels[$i]}" "on")
 	done
-	read -p "Enter numbers to SKIP (space-separated), or press Enter to enable all: " skip
 
-	for i in "${!service_units[@]}"; do
-		if [[ " $skip " != *" $((i + 1)) "* ]]; then
-			echo "Enabling ${service_units[$i]}"
-			sudo systemctl enable "${service_units[$i]}"
-		fi
-	done
+	local chosen
+	chosen=$(dialog --backtitle "$backtitle" --title "Optional services" \
+		--separate-output \
+		--checklist "Space to toggle, Enter to confirm:" 12 60 "${#service_labels[@]}" \
+		"${checklist_args[@]}" \
+		3>&1 1>&2 2>&3)
+	clear
+
+	while IFS= read -r unit; do
+		[ -n "$unit" ] || continue
+		echo "Enabling $unit"
+		sudo systemctl enable "$unit"
+	done <<<"$chosen"
 }
 
 choose_services

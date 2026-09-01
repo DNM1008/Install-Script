@@ -12,14 +12,16 @@ configuration files.
 
 1. **Sudo caching** — asks for your password once up front and keeps it alive
    in the background, instead of prompting repeatedly through the script
-2. **Desktop choice** — prompts for KDE Plasma or Qtile. Only KDE is
+2. **Menu UI** — installs `dialog` (an official repo package) so every prompt
+   below is an ncurses box instead of plain text
+3. **Desktop choice** — prompts for KDE Plasma or Qtile. Only KDE is
    implemented right now; picking Qtile exits the script.
-3. **Hardware detection** — checks detected GPU(s) against `packages/core.txt`
-   and offers (via a menu) to add any missing driver packages (e.g.
+4. **Hardware detection** — checks detected GPU(s) against `packages/core.txt`
+   and offers (via a dialog box) to add any missing driver packages (e.g.
    `nvidia-open-dkms`, `vulkan-intel`, `vulkan-radeon`)
-4. **Package group choice** — `packages/core.txt` always installs; a menu lets
-   you skip any of the optional groups (dev tools, office, Wayland/tiling
-   extras, VPN & sync, printing)
+5. **Package group choice** — `packages/core.txt` always installs; a checklist
+   box lets you skip any of the optional groups (dev tools, office,
+   Wayland/tiling extras, VPN & sync, printing)
 5. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
 6. **Locale** — generates and switches to `en_US.UTF-8`, since `en_GB.UTF-8`
    isn't present on a minimal install and glibc complains otherwise
@@ -32,8 +34,8 @@ configuration files.
 12. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/`
     into place (Neovim config included); sets up a system-wide bash profile,
     Qt theming, and the `gtkrc-janitor` user service
-13. **Services** — enables `sddm` (display manager) always; a menu lets you
-    skip CUPS (printing) or Bluetooth
+13. **Services** — enables `sddm` (display manager) always; a checklist box
+    lets you skip CUPS (printing) or Bluetooth
 14. **Cleanup** — removes default bash files, clears the package cache, and
     initialises antidot for XDG compliance
 15. **Reboot**
@@ -60,8 +62,9 @@ cd Install-Script
 ```
 
 The script asks for your sudo password once at the start, pauses a few times
-for menu choices and confirmations, and pauses once more at the end before
-rebooting.
+for dialog-box menus and confirmations, and pauses once more at the end before
+rebooting. Run it in a real terminal (not piped or redirected) so `dialog` has
+a TTY to draw on.
 
 ---
 
