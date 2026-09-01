@@ -168,7 +168,7 @@ cat "$wd/packages/core.txt" "${selected_group_files[@]}" | yay -S --needed --noc
 
 # fonts.txt lists font packages, kept separate so they're easy to trim.
 echo "Installing fonts"
-yay -S --needed --noconfirm - <$wd/fonts.txt
+yay -S --needed --noconfirm - <"$wd/fonts.txt"
 
 # ── Dotfiles ──────────────────────────────────────────────────────────────────
 # Clones the Dots repo and copies configs into place. This overwrites any
@@ -229,7 +229,7 @@ choose_services
 
 # CUPS needs the user in the `lp` group regardless of whether it was enabled
 # above, since packages/printing.txt may have been installed either way.
-sudo usermod -aG lp $user
+sudo usermod -aG lp "$user"
 
 # ── Cleanup ───────────────────────────────────────────────────────────────────
 echo "Cleaning up"
@@ -264,7 +264,7 @@ you probably need to install the specific driver for your printer. To know what
 driver you need, consult the Arch Wiki. Bluetooth is installed and should be
 accessible through 'bluetoothctl' or 'bluetuith'."
 
-read -p "Press any key to reboot"
+read -r -p "Press any key to reboot"
 
 # Remove the install script directory before rebooting.
 sudo rm -r Install-Script/
