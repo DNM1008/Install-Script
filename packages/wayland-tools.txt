@@ -1,0 +1,12 @@
+foot
+grim
+kitty
+slurp
+sway
+swaybg
+swayidle
+swaylock
+waybar
+wl-clipboard
+wmenu
+wofi

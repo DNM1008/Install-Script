@@ -1,0 +1,3 @@
+cups
+cups-pk-helper
+system-config-printer

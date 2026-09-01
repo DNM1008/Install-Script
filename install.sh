@@ -1,12 +1,28 @@
 #!/bin/bash
 #
 # Post-installation setup script for Arch Linux.
-# Assumes a minimal Arch install with base-devel, git, and an active internet connection.
+# Assumes a minimal Arch install with git and an active internet connection.
 # See readme.md for prerequisites and NOTES.md for known issues.
 set -e
 
 user=$(whoami)
 wd=$(pwd)
+
+# ── Sudo caching ─────────────────────────────────────────────────────────────
+# Prompts for the password once up front instead of scattered throughout the
+# script, then keeps the sudo timestamp alive in the background until this
+# script exits.
+echo "This script needs sudo for several steps — enter your password once now."
+sudo -v
+(
+	while true; do
+		sudo -n true
+		sleep 60
+		kill -0 "$$" 2>/dev/null || exit
+	done
+) &
+sudo_keepalive_pid=$!
+trap 'kill "$sudo_keepalive_pid" 2>/dev/null' EXIT
 
 # ── Desktop/compositor choice ───────────────────────────────────────────────
 # Only KDE is implemented right now. Qtile is kept as a menu option so it's
@@ -36,8 +52,8 @@ if [ "$de" = "qtile" ]; then
 fi
 
 # ── Hardware detection ──────────────────────────────────────────────────────
-# Cross-checks detected GPU(s) against packages.txt and offers to append any
-# missing driver packages. Doesn't touch anything without confirmation.
+# Cross-checks detected GPU(s) against packages/core.txt and offers to append
+# any missing driver packages. Doesn't touch anything without confirmation.
 recommend_gpu_packages() {
 	echo "Detecting GPU(s)..."
 	local gpu_info recommended=()
@@ -46,6 +62,8 @@ recommend_gpu_packages() {
 
 	if echo "$gpu_info" | grep -qi nvidia; then
 		recommended+=(nvidia-open-dkms libva-nvidia-driver envycontrol)
+		echo "$gpu_info" | grep -qi intel &&
+			recommended+=(plasma6-applets-optimus-gpu-switcher-git)
 	fi
 	if echo "$gpu_info" | grep -qi intel; then
 		recommended+=(mesa vulkan-intel intel-media-driver)
@@ -56,21 +74,52 @@ recommend_gpu_packages() {
 
 	local missing=()
 	for pkg in "${recommended[@]}"; do
-		grep -qx "$pkg" "$wd/packages.txt" || missing+=("$pkg")
+		grep -qx "$pkg" "$wd/packages/core.txt" || missing+=("$pkg")
 	done
 
-	if [ "${#missing[@]}" -gt 0 ]; then
-		echo "Based on your GPU(s), consider adding these packages: ${missing[*]}"
-		read -p "Append them to packages.txt now? [y/N] " ans
-		if [[ "$ans" =~ ^[Yy]$ ]]; then
-			printf '%s\n' "${missing[@]}" >>"$wd/packages.txt"
-		fi
-	else
-		echo "No additional GPU packages recommended — packages.txt already covers detected hardware."
+	if [ "${#missing[@]}" -eq 0 ]; then
+		echo "No additional GPU packages recommended — packages/core.txt already covers detected hardware."
+		return
 	fi
+
+	echo "Based on your GPU(s), consider adding these packages: ${missing[*]}"
+	select gpu_choice in "Add them to packages/core.txt" "Skip"; do
+		case $gpu_choice in
+		"Add them to packages/core.txt")
+			printf '%s\n' "${missing[@]}" >>"$wd/packages/core.txt"
+			break
+			;;
+		"Skip") break ;;
+		*) echo "Invalid choice, pick 1 or 2." ;;
+		esac
+	done
 }
 
 recommend_gpu_packages
+
+# ── Optional package groups ─────────────────────────────────────────────────
+# packages/core.txt always installs. Everything else under packages/ is an
+# optional group the user can skip.
+group_labels=("Development tools" "Office & documents" "Wayland/tiling extras" "VPN & sync" "Printing")
+group_files=("dev.txt" "office.txt" "wayland-tools.txt" "vpn-sync.txt" "printing.txt")
+selected_group_files=()
+
+choose_package_groups() {
+	echo "Optional package groups (all selected by default):"
+	local i
+	for i in "${!group_labels[@]}"; do
+		printf "  %d) %s\n" "$((i + 1))" "${group_labels[$i]}"
+	done
+	read -p "Enter numbers to SKIP (space-separated), or press Enter to install all: " skip
+
+	for i in "${!group_files[@]}"; do
+		if [[ " $skip " != *" $((i + 1)) "* ]]; then
+			selected_group_files+=("$wd/packages/${group_files[$i]}")
+		fi
+	done
+}
+
+choose_package_groups
 
 # ── Pacman tweaks ─────────────────────────────────────────────────────────────
 # ILoveCandy replaces the progress bar with a Pac-Man animation.
@@ -102,13 +151,13 @@ makepkg -si --noconfirm
 yay
 
 # ── Package installation ───────────────────────────────────────────────────────
-# packages.txt lists both official and AUR packages, one per line.
+# packages/core.txt plus whichever optional groups were selected above.
 echo "Installing software"
-yay -S --noconfirm - <$wd/packages.txt
+cat "$wd/packages/core.txt" "${selected_group_files[@]}" | yay -S --needed --noconfirm -
 
 # fonts.txt lists font packages, kept separate so they're easy to trim.
 echo "Installing fonts"
-yay -S --noconfirm - <$wd/fonts.txt
+yay -S --needed --noconfirm - <$wd/fonts.txt
 
 # ── LunarVim ──────────────────────────────────────────────────────────────────
 # LunarVim is an opinionated Neovim distribution. The dots repo contains the
@@ -134,18 +183,35 @@ echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bash
 echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
 
 # ── System services ───────────────────────────────────────────────────────────
-echo "Enabling services"
-
-# sddm: KDE's display manager, driving the Wayland Plasma session.
+# sddm is always enabled — KDE needs a display manager to reach a session.
+echo "Enabling sddm"
 sudo systemctl enable sddm
 
-# CUPS: printing support. You'll still need to install your printer's driver
-# separately — consult the Arch Wiki for the right package.
-sudo systemctl enable cups
-sudo usermod -aG lp $user
+# CUPS and Bluetooth are optional — toggle them off if you don't need them.
+service_labels=("CUPS (printing)" "Bluetooth")
+service_units=("cups" "bluetooth")
 
-# Bluetooth: enables the daemon. Use bluetuith (TUI) or bluetoothctl to pair.
-sudo systemctl enable bluetooth
+choose_services() {
+	echo "Optional services (all selected by default):"
+	local i
+	for i in "${!service_labels[@]}"; do
+		printf "  %d) %s\n" "$((i + 1))" "${service_labels[$i]}"
+	done
+	read -p "Enter numbers to SKIP (space-separated), or press Enter to enable all: " skip
+
+	for i in "${!service_units[@]}"; do
+		if [[ " $skip " != *" $((i + 1)) "* ]]; then
+			echo "Enabling ${service_units[$i]}"
+			sudo systemctl enable "${service_units[$i]}"
+		fi
+	done
+}
+
+choose_services
+
+# CUPS needs the user in the `lp` group regardless of whether it was enabled
+# above, since packages/printing.txt may have been installed either way.
+sudo usermod -aG lp $user
 
 # ── Rofi Catppuccin theme ─────────────────────────────────────────────────────
 echo "Installing rofi theme"

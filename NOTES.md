@@ -16,7 +16,8 @@ Before running the script on a non-minimal install:
 sudo systemctl disable gdm   # or lightdm, ly, etc.
 ```
 
-Or remove `sddm` from `packages.txt` and enable your preferred DM manually.
+Or remove `sddm` from `packages/core.txt` and enable your preferred DM
+manually.
 
 ---
 
@@ -24,9 +25,33 @@ Or remove `sddm` from `packages.txt` and enable your preferred DM manually.
 
 The script greps `lspci -k` for VGA/3D/display controllers and recommends
 driver packages based on vendor strings (`nvidia`, `intel`, `amd`/`radeon`).
-It only appends to `packages.txt` if you confirm the prompt — it never
-installs anything on its own. If your GPU isn't detected correctly, add the
-driver packages to `packages.txt` manually before running.
+It only appends to `packages/core.txt` if you pick that option from the menu —
+it never installs anything on its own. If your GPU isn't detected correctly,
+add the driver packages to `packages/core.txt` manually before running.
+
+---
+
+## Optional package groups and services
+
+`packages/core.txt` always installs. The other files under `packages/`
+(`dev.txt`, `office.txt`, `wayland-tools.txt`, `vpn-sync.txt`, `printing.txt`)
+are offered as a skip-list menu at install time — press Enter to install all
+of them, or type the numbers of any you want to skip.
+
+The same pattern is used for services after sddm is enabled: CUPS and
+Bluetooth can be skipped from a menu. Note that skipping the `printing.txt`
+package group does *not* automatically skip the CUPS service prompt (they're
+independent choices) — skip both if you don't want printing at all.
+
+---
+
+## Sudo caching
+
+The script runs `sudo -v` once at the start and keeps a background loop
+alive (`sudo -n true` every 60s) so later `sudo` calls in the script don't
+re-prompt. The loop is killed via a `trap ... EXIT` when the script exits,
+including on error. If you interrupt the script (Ctrl-C) before that trap
+fires, kill any leftover loop manually with `pkill -f 'sudo -n true'`.
 
 ---
 

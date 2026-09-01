@@ -1,0 +1,4 @@
+syncthing
+tailscale
+ufw
+warp-cli

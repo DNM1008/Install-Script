@@ -1,0 +1,7 @@
+miktex-git
+pandoc-cli
+texlive-basic
+texlive-fontsrecommended
+texlive-latex
+texlive-latexrecommended
+texlive-luatex

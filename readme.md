@@ -10,27 +10,32 @@ configuration files.
 
 ## What it does
 
-1. **Desktop choice** — prompts for KDE Plasma or Qtile. Only KDE is
+1. **Sudo caching** — asks for your password once up front and keeps it alive
+   in the background, instead of prompting repeatedly through the script
+2. **Desktop choice** — prompts for KDE Plasma or Qtile. Only KDE is
    implemented right now; picking Qtile exits the script.
-2. **Hardware detection** — checks detected GPU(s) against `packages.txt` and
-   offers to append any missing driver packages (e.g. `nvidia-open-dkms`,
-   `vulkan-intel`, `vulkan-radeon`)
-3. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
-4. **System update** — full sync and upgrade before installing anything
-5. **base-devel** — installed via pacman so `makepkg` can build yay
-6. **yay** — bootstraps the AUR helper (needed for most packages)
-7. **Packages** — installs everything in `packages.txt` via yay, including
-   PipeWire (KDE's default audio stack)
-8. **Fonts** — installs everything in `fonts.txt`
-9. **LunarVim** — installs the LunarVim Neovim distribution
-10. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/` into
+3. **Hardware detection** — checks detected GPU(s) against `packages/core.txt`
+   and offers (via a menu) to add any missing driver packages (e.g.
+   `nvidia-open-dkms`, `vulkan-intel`, `vulkan-radeon`)
+4. **Package group choice** — `packages/core.txt` always installs; a menu lets
+   you skip any of the optional groups (dev tools, office, Wayland/tiling
+   extras, VPN & sync, printing)
+5. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
+6. **System update** — full sync and upgrade before installing anything
+7. **base-devel** — installed via pacman so `makepkg` can build yay
+8. **yay** — bootstraps the AUR helper (needed for most packages)
+9. **Packages** — installs `packages/core.txt` plus whichever optional groups
+   were selected, including PipeWire (KDE's default audio stack)
+10. **Fonts** — installs everything in `fonts.txt`
+11. **LunarVim** — installs the LunarVim Neovim distribution
+12. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/` into
     place; sets up a system-wide bash profile and Qt theming
-11. **Services** — enables `sddm` (display manager), CUPS (printing), and
-    Bluetooth
-12. **Rofi theme** — installs the Catppuccin Macchiato rofi theme
-13. **Cleanup** — removes default bash files, clears the package cache, and
+13. **Services** — enables `sddm` (display manager) always; a menu lets you
+    skip CUPS (printing) or Bluetooth
+14. **Rofi theme** — installs the Catppuccin Macchiato rofi theme
+15. **Cleanup** — removes default bash files, clears the package cache, and
     initialises antidot for XDG compliance
-14. **Reboot**
+16. **Reboot**
 
 ---
 
@@ -49,20 +54,25 @@ configuration files.
 ```sh
 git clone https://github.com/DNM1008/Install-Script
 cd Install-Script
-# Optional: edit packages.txt and fonts.txt to add or remove packages
+# Optional: edit files under packages/ and fonts.txt to add or remove packages
 ./install.sh
 ```
 
-The script will pause a few times for confirmations and once at the end before
+The script asks for your sudo password once at the start, pauses a few times
+for menu choices and confirmations, and pauses once more at the end before
 rebooting.
 
 ---
 
 ## Customising packages
 
-- **`packages.txt`** — one package name per line; both official and AUR
-  packages are supported (yay handles both)
-- **`fonts.txt`** — same format; font packages are installed in a separate pass
+- **`packages/core.txt`** — always installed, one package name per line; both
+  official and AUR packages are supported (yay handles both)
+- **`packages/dev.txt`, `office.txt`, `wayland-tools.txt`, `vpn-sync.txt`,
+  `printing.txt`** — optional groups; the script shows a menu to skip any of
+  them at install time
+- **`fonts.txt`** — same format as `packages/core.txt`; font packages are
+  installed in a separate pass
 
 Edit these before running the script to include or exclude anything. Be careful
 removing packages that others depend on.
@@ -74,9 +84,11 @@ removing packages that others depend on.
 If you already have a working desktop (EndeavourOS, Manjaro, etc.):
 
 - **Display manager** — disable or remove your existing DM service, or delete
-  `sddm` from `packages.txt`. Two DMs enabled at once will cause a broken boot.
+  `sddm` from `packages/core.txt`. Two DMs enabled at once will cause a broken
+  boot.
 - **Bluetooth / printing** — already set up on most derivatives; safe to
-  reinstall but it adds time.
+  reinstall but it adds time, or skip them in the services/package-group
+  menus.
 
 ---
 
