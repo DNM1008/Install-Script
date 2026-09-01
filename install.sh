@@ -124,7 +124,7 @@ choose_package_groups
 # ── Pacman tweaks ─────────────────────────────────────────────────────────────
 # ILoveCandy replaces the progress bar with a Pac-Man animation.
 echo "Making Pacman look prettier"
-sudo grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+sudo grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
 # Parallel downloads speeds up package installation significantly on fast connections.
 echo "Enabling parallel downloads"
