@@ -17,27 +17,27 @@ configuration files.
    `vulkan-intel`, `vulkan-radeon`)
 3. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
 4. **System update** — full sync and upgrade before installing anything
-5. **yay** — bootstraps the AUR helper (needed for most packages)
-6. **Packages** — installs everything in `packages.txt` via yay, including
+5. **base-devel** — installed via pacman so `makepkg` can build yay
+6. **yay** — bootstraps the AUR helper (needed for most packages)
+7. **Packages** — installs everything in `packages.txt` via yay, including
    PipeWire (KDE's default audio stack)
-7. **Fonts** — installs everything in `fonts.txt`
-8. **LunarVim** — installs the LunarVim Neovim distribution
-9. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/` into
-   place; sets up a system-wide bash profile and Qt theming
-10. **Services** — enables `sddm` (display manager), CUPS (printing), and
+8. **Fonts** — installs everything in `fonts.txt`
+9. **LunarVim** — installs the LunarVim Neovim distribution
+10. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/` into
+    place; sets up a system-wide bash profile and Qt theming
+11. **Services** — enables `sddm` (display manager), CUPS (printing), and
     Bluetooth
-11. **Rofi theme** — installs the Catppuccin Macchiato rofi theme
-12. **Cleanup** — removes default bash files, clears the package cache, and
+12. **Rofi theme** — installs the Catppuccin Macchiato rofi theme
+13. **Cleanup** — removes default bash files, clears the package cache, and
     initialises antidot for XDG compliance
-13. **Reboot**
+14. **Reboot**
 
 ---
 
 ## Prerequisites
 
 - A minimal Arch install (or an Arch derivative — see caveats below)
-- `base-devel` installed
-- `git` installed
+- `git` installed (`base-devel` is installed by the script itself)
 - Active internet connection with only one network manager running (if you have
   both NetworkManager and systemd-networkd enabled, disable the one you're not
   using)

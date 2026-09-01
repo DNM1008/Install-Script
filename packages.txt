@@ -4,7 +4,6 @@ antidot
 arch-install-scripts
 archlinux-themes-sddm
 base
-base-devel
 bash-completion
 bluez
 bluez-utils

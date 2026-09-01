@@ -85,6 +85,11 @@ sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 echo "Initial sync"
 sudo pacman -Syyu
 
+# ── base-devel ─────────────────────────────────────────────────────────────────
+# Needed by makepkg to build yay (and anything else from the AUR).
+echo "Installing base-devel"
+sudo pacman -S --needed --noconfirm base-devel
+
 # ── yay (AUR helper) ──────────────────────────────────────────────────────────
 # yay is needed to install packages from both the official repos and the AUR.
 # It's bootstrapped manually since it isn't in the official repos.
