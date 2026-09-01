@@ -17,6 +17,21 @@ set `LANG=en_GB.UTF-8` in `/etc/locale.conf` after the script finishes.
 
 ---
 
+## gtkrc-janitor (user service)
+
+KDE's `kde-gtk-config` keeps regenerating legacy `.gtkrc`/`.gtkrc-2.0` files
+in `$HOME` and `$HOME/.config` even though nothing reads them. The Dots repo
+ships a user systemd service (`~/.config/systemd/user/gtkrc-janitor.service`)
+plus `~/.local/bin/gtkrc-janitor.sh` that deletes them on sight via
+`inotifywait`. It's a *user* unit, not a system one, so `systemctl enable`
+won't touch it — the script runs `systemctl --user enable --now` right after
+the dotfiles are copied in. Check it's running with:
+```sh
+systemctl --user status gtkrc-janitor.service
+```
+
+---
+
 ## Display manager: sddm
 
 The script enables `sddm` as the display manager (KDE's default). If another

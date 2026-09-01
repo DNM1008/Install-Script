@@ -173,12 +173,13 @@ yay -S --needed --noconfirm - <$wd/fonts.txt
 
 # ── Dotfiles ──────────────────────────────────────────────────────────────────
 # Clones the Dots repo and copies configs into place. This overwrites any
-# existing files in ~/.config — intentional on a fresh install.
+# existing files in ~/.config and ~/.local — intentional on a fresh install.
 echo "Installing da dots and sum system config"
 cd ~/Downloads/
 git clone --depth=1 https://github.com/DNM1008/Dots && cd Dots
 
 cp -r .config/* ~/.config/
+cp -r .local/* ~/.local/
 
 # Sources the custom bash profile for all users so XDG paths and env vars are
 # available in every shell session, not just interactive ones.
@@ -186,6 +187,13 @@ echo "source /home/$user/.config/bash/bash_profile" | sudo tee -a /etc/bash.bash
 
 # Forces Qt5 apps to use qt5ct for theming so they match the GTK/KDE theme.
 echo "QT_QPA_PLATFORMTHEME=qt5ct" | sudo tee -a /etc/environment
+
+# gtkrc-janitor: a user systemd service (from .config/systemd/user/) that
+# deletes stray legacy GTK1/GTK2 rc files kde-gtk-config keeps regenerating.
+# Needs its own enable — copying the unit file into place doesn't start it.
+echo "Enabling gtkrc-janitor"
+systemctl --user daemon-reload
+systemctl --user enable --now gtkrc-janitor.service
 
 # ── System services ───────────────────────────────────────────────────────────
 # sddm is always enabled — KDE needs a display manager to reach a session.
