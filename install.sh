@@ -130,6 +130,18 @@ sudo grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i "/#VerbosePkgLists/a I
 echo "Enabling parallel downloads"
 sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 
+# ── Locale ─────────────────────────────────────────────────────────────────────
+# en_GB.UTF-8 isn't generated on a minimal Arch install, which makes glibc
+# complain ("setlocale: LC_ALL cannot honor request") for the rest of the
+# script and every session after. Falls back to en_US.UTF-8, which is always
+# present as a commented-out entry in locale.gen.
+echo "Configuring locale (falling back to en_US.UTF-8)"
+sudo sed -i "s/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/" /etc/locale.gen
+sudo locale-gen
+echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # ── System update ─────────────────────────────────────────────────────────────
 echo "Initial sync"
 sudo pacman -Syyu
@@ -205,12 +217,6 @@ choose_services
 # CUPS needs the user in the `lp` group regardless of whether it was enabled
 # above, since packages/printing.txt may have been installed either way.
 sudo usermod -aG lp $user
-
-# ── Rofi Catppuccin theme ─────────────────────────────────────────────────────
-echo "Installing rofi theme"
-cd ~/Downloads/
-git clone https://github.com/catppuccin/rofi.git
-cd rofi/basic && ./install.sh
 
 # ── Cleanup ───────────────────────────────────────────────────────────────────
 echo "Cleaning up"

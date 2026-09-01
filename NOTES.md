@@ -5,6 +5,18 @@ obvious from reading the script.
 
 ---
 
+## Locale: en_GB.UTF-8 not available
+
+A minimal Arch install only ships `en_US.UTF-8` uncommented (as a
+commented-out option) in `/etc/locale.gen` — `en_GB.UTF-8` isn't generated,
+which causes `setlocale: LC_ALL: cannot change locale` warnings if `LANG` or
+`LC_ALL` is set to it anywhere (shell profile, environment, etc.). The script
+generates and switches to `en_US.UTF-8` instead. If you actually want
+`en_GB.UTF-8`, uncomment it in `/etc/locale.gen`, run `sudo locale-gen`, and
+set `LANG=en_GB.UTF-8` in `/etc/locale.conf` after the script finishes.
+
+---
+
 ## Display manager: sddm
 
 The script enables `sddm` as the display manager (KDE's default). If another

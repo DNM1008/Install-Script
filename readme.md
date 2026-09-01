@@ -21,18 +21,19 @@ configuration files.
    you skip any of the optional groups (dev tools, office, Wayland/tiling
    extras, VPN & sync, printing)
 5. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
-6. **System update** — full sync and upgrade before installing anything
-7. **base-devel** — installed via pacman so `makepkg` can build yay
-8. **yay** — bootstraps the AUR helper (needed for most packages)
-9. **Packages** — installs `packages/core.txt` plus whichever optional groups
-   were selected, including PipeWire (KDE's default audio stack)
-10. **Fonts** — installs everything in `fonts.txt`
-11. **Dotfiles** — clones the Dots repo and copies `.config/` into place
+6. **Locale** — generates and switches to `en_US.UTF-8`, since `en_GB.UTF-8`
+   isn't present on a minimal install and glibc complains otherwise
+7. **System update** — full sync and upgrade before installing anything
+8. **base-devel** — installed via pacman so `makepkg` can build yay
+9. **yay** — bootstraps the AUR helper (needed for most packages)
+10. **Packages** — installs `packages/core.txt` plus whichever optional groups
+    were selected, including PipeWire (KDE's default audio stack)
+11. **Fonts** — installs everything in `fonts.txt`
+12. **Dotfiles** — clones the Dots repo and copies `.config/` into place
     (Neovim config included); sets up a system-wide bash profile and Qt
     theming
-12. **Services** — enables `sddm` (display manager) always; a menu lets you
+13. **Services** — enables `sddm` (display manager) always; a menu lets you
     skip CUPS (printing) or Bluetooth
-13. **Rofi theme** — installs the Catppuccin Macchiato rofi theme
 14. **Cleanup** — removes default bash files, clears the package cache, and
     initialises antidot for XDG compliance
 15. **Reboot**
