@@ -16,15 +16,15 @@ hang. Always run it directly in a terminal: `./install.sh`, not
 
 ---
 
-## Locale: en_GB.UTF-8 not available
+## Shell: zsh + ZDOTDIR
 
-A minimal Arch install only ships `en_US.UTF-8` uncommented (as a
-commented-out option) in `/etc/locale.gen` — `en_GB.UTF-8` isn't generated,
-which causes `setlocale: LC_ALL: cannot change locale` warnings if `LANG` or
-`LC_ALL` is set to it anywhere (shell profile, environment, etc.). The script
-generates and switches to `en_US.UTF-8` instead. If you actually want
-`en_GB.UTF-8`, uncomment it in `/etc/locale.gen`, run `sudo locale-gen`, and
-set `LANG=en_GB.UTF-8` in `/etc/locale.conf` after the script finishes.
+The script switches the login shell to zsh (`sudo chsh -s /bin/zsh "$user"`)
+and appends `export ZDOTDIR="$HOME/.config/zsh"` to `/etc/zsh/zshenv`, since
+the Dots repo keeps zsh config XDG-compliant under `~/.config/zsh/` rather
+than directly in `$HOME`. The cleanup step later sources
+`.config/zsh/.zshenv` directly (not `bash_profile`) so the rest of the
+script's own commands pick up the same `PATH`/XDG env vars, even though the
+script itself keeps running as bash.
 
 ---
 
@@ -72,9 +72,9 @@ add the driver packages to `packages/core.txt` manually before running.
 ## Optional package groups and services
 
 `packages/core.txt` always installs. The other files under `packages/`
-(`dev.txt`, `office.txt`, `wayland-tools.txt`, `vpn-sync.txt`, `printing.txt`)
-are offered as a skip-list menu at install time — press Enter to install all
-of them, or type the numbers of any you want to skip.
+(`dev.txt`, `office.txt`, `vpn-sync.txt`, `printing.txt`) are offered as a
+skip-list menu at install time — press Enter to install all of them, or type
+the numbers of any you want to skip.
 
 The same pattern is used for services after sddm is enabled: CUPS and
 Bluetooth can be skipped from a menu. Note that skipping the `printing.txt`
@@ -86,10 +86,15 @@ independent choices) — skip both if you don't want printing at all.
 ## Sudo caching
 
 The script runs `sudo -v` once at the start and keeps a background loop
-alive (`sudo -n true` every 60s) so later `sudo` calls in the script don't
-re-prompt. The loop is killed via a `trap ... EXIT` when the script exits,
-including on error. If you interrupt the script (Ctrl-C) before that trap
-fires, kill any leftover loop manually with `pkill -f 'sudo -n true'`.
+alive (`sudo -n true 2>/dev/null || true` every 60s) so later `sudo` calls in
+the script don't re-prompt. The `|| true` matters: the loop runs under
+`set -e` inherited from the parent script, so a single failed refresh (e.g. a
+timing hiccup right after the initial `sudo -v`) would otherwise kill the
+whole background loop silently, and every `sudo` call after would eventually
+re-prompt once the cached timestamp expired. The loop itself is killed via a
+`trap ... EXIT` when the script exits, including on error. If you interrupt
+the script (Ctrl-C) before that trap fires, kill any leftover loop manually
+with `pkill -f 'sudo -n true'`.
 
 ---
 

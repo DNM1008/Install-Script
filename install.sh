@@ -16,7 +16,7 @@ echo "This script needs sudo for several steps — enter your password once now.
 sudo -v
 (
 	while true; do
-		sudo -n true
+		sudo -n true 2>/dev/null || true
 		sleep 60
 		kill -0 "$$" 2>/dev/null || exit
 	done
@@ -130,18 +130,6 @@ sudo grep -q "ILoveCandy" /etc/pacman.conf || sudo sed -i "/#VerbosePkgLists/a I
 echo "Enabling parallel downloads"
 sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 
-# ── Locale ─────────────────────────────────────────────────────────────────────
-# en_GB.UTF-8 isn't generated on a minimal Arch install, which makes glibc
-# complain ("setlocale: LC_ALL cannot honor request") for the rest of the
-# script and every session after. Falls back to en_US.UTF-8, which is always
-# present as a commented-out entry in locale.gen.
-echo "Configuring locale (falling back to en_US.UTF-8)"
-sudo sed -i "s/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/" /etc/locale.gen
-sudo locale-gen
-echo "LANG=en_US.UTF-8" | sudo tee /etc/locale.conf
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-
 # ── System update ─────────────────────────────────────────────────────────────
 echo "Initial sync"
 sudo pacman -Syyu
@@ -243,9 +231,9 @@ sudo usermod -aG lp "$user"
 echo "Cleaning up"
 cd
 
-# Apply the new bash profile so subsequent commands in this script use the
-# correct paths and environment variables.
-source .config/bash/bash_profile
+# Apply the new zsh env so subsequent commands in this script use the correct
+# paths and environment variables.
+source .config/zsh/.zshenv
 
 # Remove the default bash files that were replaced by the dots config.
 sudo rm -r .bash_history .bash_profile .bash_logout .bashrc

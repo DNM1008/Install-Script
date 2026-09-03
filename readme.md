@@ -21,24 +21,24 @@ configuration files.
    `nvidia-open-dkms`, `vulkan-intel`, `vulkan-radeon`)
 5. **Package group choice** — `packages/core.txt` always installs; a checklist
    box lets you skip any of the optional groups (dev tools, office,
-   Wayland/tiling extras, VPN & sync, printing)
-5. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
-6. **Locale** — generates and switches to `en_US.UTF-8`, since `en_GB.UTF-8`
-   isn't present on a minimal install and glibc complains otherwise
+   VPN & sync, printing)
+6. **Pacman tweaks** — enables the ILoveCandy animation and parallel downloads
 7. **System update** — full sync and upgrade before installing anything
-8. **base-devel** — installed via pacman so `makepkg` can build yay
-9. **yay** — bootstraps the AUR helper (needed for most packages)
+8. **base-devel** — installed via pacman so `makepkg` can build paru
+9. **paru** — bootstraps the AUR helper (needed for most packages)
 10. **Packages** — installs `packages/core.txt` plus whichever optional groups
     were selected, including PipeWire (KDE's default audio stack)
 11. **Fonts** — installs everything in `fonts.txt`
 12. **Dotfiles** — clones the Dots repo and copies `.config/` and `.local/`
     into place (Neovim config included); sets up a system-wide bash profile,
     Qt theming, and the `gtkrc-janitor` user service
-13. **Services** — enables `sddm` (display manager) always; a checklist box
+13. **Shell** — switches the login shell to zsh and points `ZDOTDIR` at the
+    Dots repo's XDG-compliant zsh config
+14. **Services** — enables `sddm` (display manager) always; a checklist box
     lets you skip CUPS (printing) or Bluetooth
-14. **Cleanup** — removes default bash files, clears the package cache, and
+15. **Cleanup** — removes default bash files, clears the package cache, and
     initialises antidot for XDG compliance
-15. **Reboot**
+16. **Reboot**
 
 ---
 
@@ -71,10 +71,9 @@ before rebooting. Run it in a real terminal (not piped or redirected) so
 ## Customising packages
 
 - **`packages/core.txt`** — always installed, one package name per line; both
-  official and AUR packages are supported (yay handles both)
-- **`packages/dev.txt`, `office.txt`, `wayland-tools.txt`, `vpn-sync.txt`,
-  `printing.txt`** — optional groups; the script shows a menu to skip any of
-  them at install time
+  official and AUR packages are supported (paru handles both)
+- **`packages/dev.txt`, `office.txt`, `vpn-sync.txt`, `printing.txt`** —
+  optional groups; the script shows a menu to skip any of them at install time
 - **`fonts.txt`** — same format as `packages/core.txt`; font packages are
   installed in a separate pass
 
