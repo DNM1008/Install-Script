@@ -12,12 +12,12 @@ configuration files.
 
 1. **Sudo caching** — asks for your password once up front and keeps it alive
    in the background, instead of prompting repeatedly through the script
-2. **Menu UI** — installs `dialog` (an official repo package) so every prompt
-   below is an ncurses box instead of plain text
+2. **Menu UI** — installs `libnewt` (an official repo package, provides
+   `whiptail`) so every prompt below is an ncurses box instead of plain text
 3. **Desktop choice** — prompts for KDE Plasma or Qtile. Only KDE is
    implemented right now; picking Qtile exits the script.
 4. **Hardware detection** — checks detected GPU(s) against `packages/core.txt`
-   and offers (via a dialog box) to add any missing driver packages (e.g.
+   and offers (via a whiptail box) to add any missing driver packages (e.g.
    `nvidia-open-dkms`, `vulkan-intel`, `vulkan-radeon`)
 5. **Package group choice** — `packages/core.txt` always installs; a checklist
    box lets you skip any of the optional groups (dev tools, office,
@@ -62,9 +62,9 @@ cd Install-Script
 ```
 
 The script asks for your sudo password once at the start, pauses a few times
-for dialog-box menus and confirmations, and pauses once more at the end before
-rebooting. Run it in a real terminal (not piped or redirected) so `dialog` has
-a TTY to draw on.
+for whiptail-box menus and confirmations, and pauses once more at the end
+before rebooting. Run it in a real terminal (not piped or redirected) so
+`whiptail` has a TTY to draw on.
 
 ---
 

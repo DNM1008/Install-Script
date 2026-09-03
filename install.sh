@@ -25,10 +25,11 @@ sudo_keepalive_pid=$!
 trap 'kill "$sudo_keepalive_pid" 2>/dev/null' EXIT
 
 # ── Menu UI ──────────────────────────────────────────────────────────────────
-# dialog draws the ncurses boxes used for every prompt below. It's an official
-# repo package so it can be installed straight away, before yay exists.
-echo "Installing dialog for interactive menus"
-sudo pacman -S --needed --noconfirm dialog
+# whiptail (from libnewt) draws the ncurses boxes used for every prompt below.
+# It's an official repo package so it can be installed straight away, before
+# yay exists.
+echo "Installing whiptail for interactive menus"
+sudo pacman -S --needed --noconfirm libnewt
 
 backtitle="Arch Install Script"
 
@@ -36,7 +37,7 @@ backtitle="Arch Install Script"
 # Only KDE is implemented right now. Qtile is kept as a menu option so it's
 # obvious it's planned, but selecting it just exits.
 choose_de() {
-	de=$(dialog --backtitle "$backtitle" --title "Desktop choice" \
+	de=$(whiptail --backtitle "$backtitle" --title "Desktop choice" \
 		--menu "Which desktop/session do you want to set up?" 12 60 2 \
 		kde "KDE Plasma (Wayland)" \
 		qtile "Qtile (not yet implemented)" \
@@ -76,13 +77,13 @@ recommend_gpu_packages() {
 	done
 
 	if [ "${#missing[@]}" -eq 0 ]; then
-		dialog --backtitle "$backtitle" --title "GPU packages" \
+		whiptail --backtitle "$backtitle" --title "GPU packages" \
 			--msgbox "Detected:\n${gpu_info}\n\nNo additional GPU packages recommended — packages/core.txt already covers detected hardware." 15 70
 		clear
 		return
 	fi
 
-	if dialog --backtitle "$backtitle" --title "GPU packages" \
+	if whiptail --backtitle "$backtitle" --title "GPU packages" \
 		--yesno "Detected:\n${gpu_info}\n\nBased on your GPU(s), consider adding these packages:\n${missing[*]}\n\nAdd them to packages/core.txt now?" 18 70; then
 		printf '%s\n' "${missing[@]}" >>"$wd/packages/core.txt"
 	fi
@@ -106,7 +107,7 @@ choose_package_groups() {
 	done
 
 	local chosen
-	chosen=$(dialog --backtitle "$backtitle" --title "Optional package groups" \
+	chosen=$(whiptail --backtitle "$backtitle" --title "Optional package groups" \
 		--separate-output \
 		--checklist "Space to toggle, Enter to confirm:" 18 70 "${#group_labels[@]}" \
 		"${checklist_args[@]}" \
@@ -194,6 +195,13 @@ echo "Enabling gtkrc-janitor"
 systemctl --user daemon-reload
 systemctl --user enable --now gtkrc-janitor.service
 
+# ── Shell ────────────────────────────────────────────────────────────────────
+# Switches the login shell to zsh and points ZDOTDIR at the XDG-compliant
+# config location the Dots repo uses.
+echo "Switching to zsh"
+sudo chsh -s /bin/zsh "$user"
+echo 'export ZDOTDIR="$HOME/.config/zsh"' | sudo tee -a /etc/zsh/zshenv
+
 # ── System services ───────────────────────────────────────────────────────────
 # sddm is always enabled — KDE needs a display manager to reach a session.
 echo "Enabling sddm"
@@ -211,7 +219,7 @@ choose_services() {
 	done
 
 	local chosen
-	chosen=$(dialog --backtitle "$backtitle" --title "Optional services" \
+	chosen=$(whiptail --backtitle "$backtitle" --title "Optional services" \
 		--separate-output \
 		--checklist "Space to toggle, Enter to confirm:" 12 60 "${#service_labels[@]}" \
 		"${checklist_args[@]}" \

@@ -8,7 +8,7 @@ obvious from reading the script.
 ## Menus need a real TTY
 
 All the interactive prompts (desktop choice, GPU packages, package groups,
-services) are `dialog` ncurses boxes. `dialog` needs an actual terminal to
+services) are `whiptail` ncurses boxes. `whiptail` needs an actual terminal to
 draw on — running the script through something that redirects stdin/stdout
 (piped into `bash`, run under `nohup`, driven by a CI job, etc.) will fail or
 hang. Always run it directly in a terminal: `./install.sh`, not
