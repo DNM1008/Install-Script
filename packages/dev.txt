@@ -1,7 +1,4 @@
 claude-code
-docker
-docker-buildx
-docker-compose
 entr
 eza
 fastfetch

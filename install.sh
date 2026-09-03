@@ -95,8 +95,8 @@ recommend_gpu_packages
 # ── Optional package groups ─────────────────────────────────────────────────
 # packages/core.txt always installs. Everything else under packages/ is an
 # optional group the user can skip.
-group_labels=("Development tools" "Office & documents" "Wayland/tiling extras" "VPN & sync" "Printing")
-group_files=("dev.txt" "office.txt" "wayland-tools.txt" "vpn-sync.txt" "printing.txt")
+group_labels=("Development tools" "Office & documents" "VPN & sync" "Printing")
+group_files=("dev.txt" "office.txt" "vpn-sync.txt" "printing.txt")
 selected_group_files=()
 
 choose_package_groups() {

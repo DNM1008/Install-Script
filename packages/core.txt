@@ -29,6 +29,7 @@ inotify-tools
 intel-ucode
 kdotool
 keyd
+kitty
 kwin-scripts-krohnkite-git
 less
 libfprint
@@ -76,6 +77,8 @@ utterly-round-plasma-style
 webp-pixbuf-loader
 wget
 wireplumber
+wl-clipboard
+wofi
 wpa_supplicant
 xdg-terminal-exec
 xdg-utils
