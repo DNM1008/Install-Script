@@ -27,7 +27,7 @@ trap 'kill "$sudo_keepalive_pid" 2>/dev/null' EXIT
 # ── Menu UI ──────────────────────────────────────────────────────────────────
 # whiptail (from libnewt) draws the ncurses boxes used for every prompt below.
 # It's an official repo package so it can be installed straight away, before
-# yay exists.
+# paru exists.
 echo "Installing whiptail for interactive menus"
 sudo pacman -S --needed --noconfirm libnewt
 
@@ -40,7 +40,7 @@ choose_de() {
 	de=$(whiptail --backtitle "$backtitle" --title "Desktop choice" \
 		--menu "Which desktop/session do you want to set up?" 12 60 2 \
 		kde "KDE Plasma (Wayland)" \
-		qtile "Qtile (not yet implemented)" \
+		qtile "Qtile (WIP)" \
 		3>&1 1>&2 2>&3)
 	clear
 }
@@ -147,29 +147,29 @@ echo "Initial sync"
 sudo pacman -Syyu
 
 # ── base-devel ─────────────────────────────────────────────────────────────────
-# Needed by makepkg to build yay (and anything else from the AUR).
+# Needed by makepkg to build paru (and anything else from the AUR).
 echo "Installing base-devel"
 sudo pacman -S --needed --noconfirm base-devel
 
-# ── yay (AUR helper) ──────────────────────────────────────────────────────────
-# yay is needed to install packages from both the official repos and the AUR.
+# ── paru (AUR helper) ──────────────────────────────────────────────────────────
+# paru is needed to install packages from both the official repos and the AUR.
 # It's bootstrapped manually since it isn't in the official repos.
-echo "Installing yay"
+echo "Installing paru"
 mkdir ~/Downloads && cd ~/Downloads
-git clone https://aur.archlinux.org/yay.git && cd yay
+git clone https://aur.archlinux.org/paru.git && cd paru
 makepkg -si --noconfirm
 
-# Sync and update everything via yay before installing anything else.
-yay
+# Sync and update everything via paru before installing anything else.
+paru
 
 # ── Package installation ───────────────────────────────────────────────────────
 # packages/core.txt plus whichever optional groups were selected above.
 echo "Installing software"
-cat "$wd/packages/core.txt" "${selected_group_files[@]}" | yay -S --needed --noconfirm -
+cat "$wd/packages/core.txt" "${selected_group_files[@]}" | paru -S --needed --noconfirm -
 
 # fonts.txt lists font packages, kept separate so they're easy to trim.
 echo "Installing fonts"
-yay -S --needed --noconfirm - <"$wd/fonts.txt"
+paru -S --needed --noconfirm - <"$wd/fonts.txt"
 
 # ── Dotfiles ──────────────────────────────────────────────────────────────────
 # Clones the Dots repo and copies configs into place. This overwrites any
@@ -255,7 +255,7 @@ sudo rm -r .gnupg/
 sudo rm -r go/
 
 # Clear the package cache to free disk space.
-yay -Scc --noconfirm
+paru -Scc --noconfirm
 sudo rm -r ~/go
 
 # antidot manages XDG compliance — moves config files out of $HOME into their
@@ -269,8 +269,7 @@ echo "The basic setup should be done for now, to get your system to a more
 functional state, consider install pandoc and texlive, or if it's not what
 you're looking for, libre office. CUPS has been installed and enabled, however,
 you probably need to install the specific driver for your printer. To know what
-driver you need, consult the Arch Wiki. Bluetooth is installed and should be
-accessible through 'bluetoothctl' or 'bluetuith'."
+driver you need, consult the Arch Wiki."
 
 read -r -p "Press any key to reboot"
 
