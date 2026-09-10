@@ -1,10 +1,8 @@
 gnu-free-fonts
-hack-font-ligature-nerd-font-git
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
-otf-hasklig-nerd
 ttf-dejavu
-otf-firamono-nerd
+ttf-hack-ligatured
 ttf-liberation
 ttf-ms-fonts
