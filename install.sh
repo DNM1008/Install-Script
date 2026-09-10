@@ -15,11 +15,11 @@ wd=$(pwd)
 echo "This script needs sudo for several steps — enter your password once now."
 sudo -v
 (
-	while true; do
-		sudo -n true 2>/dev/null || true
-		sleep 60
-		kill -0 "$$" 2>/dev/null || exit
-	done
+  while true; do
+    sudo -n true 2>/dev/null || true
+    sleep 60
+    kill -0 "$$" 2>/dev/null || exit
+  done
 ) &
 sudo_keepalive_pid=$!
 trap 'kill "$sudo_keepalive_pid" 2>/dev/null' EXIT
@@ -37,57 +37,57 @@ backtitle="Arch Install Script"
 # Only KDE is implemented right now. Qtile is kept as a menu option so it's
 # obvious it's planned, but selecting it just exits.
 choose_de() {
-	de=$(whiptail --backtitle "$backtitle" --title "Desktop choice" \
-		--menu "Which desktop/session do you want to set up?" 12 60 2 \
-		kde "KDE Plasma (Wayland)" \
-		qtile "Qtile (WIP)" \
-		3>&1 1>&2 2>&3)
-	clear
+  de=$(whiptail --backtitle "$backtitle" --title "Desktop choice" \
+    --menu "Which desktop/session do you want to set up?" 12 60 2 \
+    kde "KDE Plasma (Wayland)" \
+    qtile "Qtile (WIP)" \
+    3>&1 1>&2 2>&3)
+  clear
 }
 
 choose_de
 
 if [ "$de" = "qtile" ]; then
-	echo "Qtile support isn't implemented in this script yet. Exiting."
-	exit 1
+  echo "Qtile support isn't implemented in this script yet. Exiting."
+  exit 1
 fi
 
 # ── Hardware detection ──────────────────────────────────────────────────────
 # Cross-checks detected GPU(s) against packages/core.txt and offers to append
 # any missing driver packages. Doesn't touch anything without confirmation.
 recommend_gpu_packages() {
-	local gpu_info recommended=()
-	gpu_info=$(lspci -k | grep -iE 'vga compatible controller|3d controller|display controller')
+  local gpu_info recommended=()
+  gpu_info=$(lspci -k | grep -iE 'vga compatible controller|3d controller|display controller')
 
-	if echo "$gpu_info" | grep -qi nvidia; then
-		recommended+=(nvidia-open-dkms libva-nvidia-driver envycontrol)
-		echo "$gpu_info" | grep -qi intel &&
-			recommended+=(plasma6-applets-optimus-gpu-switcher-git)
-	fi
-	if echo "$gpu_info" | grep -qi intel; then
-		recommended+=(mesa vulkan-intel intel-media-driver)
-	fi
-	if echo "$gpu_info" | grep -qiE 'amd|advanced micro devices|radeon'; then
-		recommended+=(mesa vulkan-radeon xf86-video-amdgpu)
-	fi
+  if echo "$gpu_info" | grep -qi nvidia; then
+    recommended+=(nvidia-open-dkms libva-nvidia-driver envycontrol)
+    echo "$gpu_info" | grep -qi intel &&
+      recommended+=(plasma6-applets-optimus-gpu-switcher-git)
+  fi
+  if echo "$gpu_info" | grep -qi intel; then
+    recommended+=(mesa vulkan-intel intel-media-driver)
+  fi
+  if echo "$gpu_info" | grep -qiE 'amd|advanced micro devices|radeon'; then
+    recommended+=(mesa vulkan-radeon xf86-video-amdgpu)
+  fi
 
-	local missing=()
-	for pkg in "${recommended[@]}"; do
-		grep -qx "$pkg" "$wd/packages/core.txt" || missing+=("$pkg")
-	done
+  local missing=()
+  for pkg in "${recommended[@]}"; do
+    grep -qx "$pkg" "$wd/packages/core.txt" || missing+=("$pkg")
+  done
 
-	if [ "${#missing[@]}" -eq 0 ]; then
-		whiptail --backtitle "$backtitle" --title "GPU packages" \
-			--msgbox "Detected:\n${gpu_info}\n\nNo additional GPU packages recommended — packages/core.txt already covers detected hardware." 15 70
-		clear
-		return
-	fi
+  if [ "${#missing[@]}" -eq 0 ]; then
+    whiptail --backtitle "$backtitle" --title "GPU packages" \
+      --msgbox "Detected:\n${gpu_info}\n\nNo additional GPU packages recommended — packages/core.txt already covers detected hardware." 15 70
+    clear
+    return
+  fi
 
-	if whiptail --backtitle "$backtitle" --title "GPU packages" \
-		--yesno "Detected:\n${gpu_info}\n\nBased on your GPU(s), consider adding these packages:\n${missing[*]}\n\nAdd them to packages/core.txt now?" 18 70; then
-		printf '%s\n' "${missing[@]}" >>"$wd/packages/core.txt"
-	fi
-	clear
+  if whiptail --backtitle "$backtitle" --title "GPU packages" \
+    --yesno "Detected:\n${gpu_info}\n\nBased on your GPU(s), consider adding these packages:\n${missing[*]}\n\nAdd them to packages/core.txt now?" 18 70; then
+    printf '%s\n' "${missing[@]}" >>"$wd/packages/core.txt"
+  fi
+  clear
 }
 
 recommend_gpu_packages
@@ -100,23 +100,23 @@ group_files=("dev.txt" "office.txt" "vpn-sync.txt" "printing.txt")
 selected_group_files=()
 
 choose_package_groups() {
-	local checklist_args=()
-	local i
-	for i in "${!group_labels[@]}"; do
-		checklist_args+=("${group_files[$i]}" "${group_labels[$i]}" "on")
-	done
+  local checklist_args=()
+  local i
+  for i in "${!group_labels[@]}"; do
+    checklist_args+=("${group_files[$i]}" "${group_labels[$i]}" "on")
+  done
 
-	local chosen
-	chosen=$(whiptail --backtitle "$backtitle" --title "Optional package groups" \
-		--separate-output \
-		--checklist "Space to toggle, Enter to confirm:" 18 70 "${#group_labels[@]}" \
-		"${checklist_args[@]}" \
-		3>&1 1>&2 2>&3)
-	clear
+  local chosen
+  chosen=$(whiptail --backtitle "$backtitle" --title "Optional package groups" \
+    --separate-output \
+    --checklist "Space to toggle, Enter to confirm:" 18 70 "${#group_labels[@]}" \
+    "${checklist_args[@]}" \
+    3>&1 1>&2 2>&3)
+  clear
 
-	while IFS= read -r file; do
-		[ -n "$file" ] && selected_group_files+=("$wd/packages/$file")
-	done <<<"$chosen"
+  while IFS= read -r file; do
+    [ -n "$file" ] && selected_group_files+=("$wd/packages/$file")
+  done <<<"$chosen"
 }
 
 choose_package_groups
@@ -200,25 +200,25 @@ service_labels=("CUPS (printing)" "Bluetooth")
 service_units=("cups" "bluetooth")
 
 choose_services() {
-	local checklist_args=()
-	local i
-	for i in "${!service_labels[@]}"; do
-		checklist_args+=("${service_units[$i]}" "${service_labels[$i]}" "on")
-	done
+  local checklist_args=()
+  local i
+  for i in "${!service_labels[@]}"; do
+    checklist_args+=("${service_units[$i]}" "${service_labels[$i]}" "on")
+  done
 
-	local chosen
-	chosen=$(whiptail --backtitle "$backtitle" --title "Optional services" \
-		--separate-output \
-		--checklist "Space to toggle, Enter to confirm:" 12 60 "${#service_labels[@]}" \
-		"${checklist_args[@]}" \
-		3>&1 1>&2 2>&3)
-	clear
+  local chosen
+  chosen=$(whiptail --backtitle "$backtitle" --title "Optional services" \
+    --separate-output \
+    --checklist "Space to toggle, Enter to confirm:" 12 60 "${#service_labels[@]}" \
+    "${checklist_args[@]}" \
+    3>&1 1>&2 2>&3)
+  clear
 
-	while IFS= read -r unit; do
-		[ -n "$unit" ] || continue
-		echo "Enabling $unit"
-		sudo systemctl enable "$unit"
-	done <<<"$chosen"
+  while IFS= read -r unit; do
+    [ -n "$unit" ] || continue
+    echo "Enabling $unit"
+    sudo systemctl enable "$unit"
+  done <<<"$chosen"
 }
 
 choose_services
