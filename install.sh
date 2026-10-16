@@ -183,6 +183,37 @@ echo "Enabling gtkrc-janitor"
 systemctl --user daemon-reload
 systemctl --user enable --now gtkrc-janitor.service
 
+# ── Firefox userChrome ───────────────────────────────────────────────────────
+# Clones the userChrome repo and symlinks its chrome/ into the Firefox profile
+# so edits there are tracked by git. Firefox only creates a profile on first
+# launch, so on a fresh install one is pre-created and marked Default=1, which
+# Firefox claims as its default on first run.
+echo "Linking Firefox userChrome"
+ff_repo=~/Projects/personal/Firefox-userChrome
+ff_dir=~/.config/mozilla/firefox
+mkdir -p ~/Projects/personal
+[ -d "$ff_repo" ] || git clone https://github.com/DNM1008/Firefox-userChrome "$ff_repo"
+
+if [ ! -f "$ff_dir/profiles.ini" ]; then
+  mkdir -p "$ff_dir/default-release"
+  cat >"$ff_dir/profiles.ini" <<'EOF'
+[Profile0]
+Name=default-release
+IsRelative=1
+Path=default-release
+Default=1
+
+[General]
+StartWithLastProfile=1
+Version=2
+EOF
+fi
+
+# Prefer the install's dedicated default, fall back to the Default=1 profile.
+ff_profile=$(awk -F= '/^\[Install/{i=1} i && /^Default=/{print $2; exit}' "$ff_dir/profiles.ini")
+[ -n "$ff_profile" ] || ff_profile=$(awk -F= '/^Path=/{p=$2} /^Default=1/{print p; exit}' "$ff_dir/profiles.ini")
+ln -sfn "$ff_repo/chrome" "$ff_dir/$ff_profile/chrome"
+
 # ── Shell ────────────────────────────────────────────────────────────────────
 # Switches the login shell to zsh and points ZDOTDIR at the XDG-compliant
 # config location the Dots repo uses.
