@@ -12,6 +12,7 @@ shellcheck
 starship
 strace
 tree
+tree-sitter-cli
 uv
 yay-debug
 zoxide
